@@ -1,1 +1,4 @@
-export enum MaterialType {}
+export enum MaterialType {
+  QuadriCard = 1,
+  ObjectiveCard,
+}

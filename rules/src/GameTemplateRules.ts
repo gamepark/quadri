@@ -1,23 +1,38 @@
-import { MaterialGame, MaterialMove, MaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { hideItemId, hideItemIdToOthers, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { PlayerColor } from './PlayerColor'
+import { PlaceQuadriCardRule } from './rules/PlaceQuadriCardRule'
 import { RuleId } from './rules/RuleId'
-import { TheFirstStepRule } from './rules/TheFirstStepRule'
 
-/**
- * This class implements the rules of the board game.
- * It must follow Game Park "Rules" API so that the Game Park server can enforce the rules.
- */
 export class GameTemplateRules
-  extends MaterialRules<PlayerColor, MaterialType, LocationType>
+  extends SecretMaterialRules<PlayerColor, MaterialType, LocationType>
   implements TimeLimit<MaterialGame<PlayerColor, MaterialType, LocationType>, MaterialMove<PlayerColor, MaterialType, LocationType>, PlayerColor>
 {
   rules = {
-    [RuleId.TheFirstStep]: TheFirstStepRule
+    [RuleId.PlaceQuadriCard]: PlaceQuadriCardRule
   }
 
-  locationsStrategies = {}
+  hidingStrategies = {
+    [MaterialType.QuadriCard]: {
+      [LocationType.QuadriDeck]: hideItemId,
+      [LocationType.PlayerHand]: hideItemIdToOthers,
+    },
+    [MaterialType.ObjectiveCard]: {
+      [LocationType.ObjectiveDeck]: hideItemId,
+      [LocationType.PlayerHand]: hideItemIdToOthers,
+    },
+  }
+
+  locationsStrategies = {
+    [MaterialType.QuadriCard]: {
+      [LocationType.QuadriDeck]: new PositiveSequenceStrategy(),
+    },
+    [MaterialType.ObjectiveCard]: {
+      [LocationType.ObjectiveDeck]: new PositiveSequenceStrategy(),
+      [LocationType.PlayerHand]: new PositiveSequenceStrategy(),
+    },
+  }
 
   giveTime(): number {
     return 60

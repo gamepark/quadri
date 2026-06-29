@@ -1,1 +1,4 @@
-{}
+{
+  "header.place-card.mine": "Placez une carte Quadri sur la table",
+  "header.place-card.other": "{{player}} place une carte Quadri"
+}

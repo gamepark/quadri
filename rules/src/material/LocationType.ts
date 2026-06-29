@@ -1,1 +1,7 @@
-export enum LocationType {}
+export enum LocationType {
+  QuadriDeck = 1,
+  ObjectiveDeck,
+  Table,
+  PlayerHand,
+  ScoredObjectives,
+}

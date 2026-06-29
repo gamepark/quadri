@@ -1,3 +1,3 @@
 export enum RuleId {
-  TheFirstStep = 1
+  PlaceQuadriCard = 1,
 }
