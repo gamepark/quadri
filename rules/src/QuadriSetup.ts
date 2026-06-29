@@ -6,10 +6,9 @@ import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { ObjectiveCard } from './material/ObjectiveCard'
 import { QuadriCard } from './material/QuadriCard'
-import { PlayerColor } from './PlayerColor'
 import { RuleId } from './rules/RuleId'
 
-export class QuadriSetup extends MaterialGameSetup<PlayerColor, MaterialType, LocationType, QuadriOptions> {
+export class QuadriSetup extends MaterialGameSetup<number, MaterialType, LocationType, QuadriOptions> {
   Rules = QuadriRules
 
   setupMaterial(_options: QuadriOptions) {
