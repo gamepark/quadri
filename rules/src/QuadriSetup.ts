@@ -39,7 +39,7 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
     this.material(MaterialType.QuadriCard)
       .location(LocationType.QuadriDeck)
       .deck()
-      .deal({ type: LocationType.Table }, 1)
+      .deal({ type: LocationType.Table, x: 0, y: 0 }, 1)
   }
 
   dealObjectivesToPlayers() {

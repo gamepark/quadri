@@ -3,13 +3,15 @@ import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { PlaceQuadriCardRule } from './rules/PlaceQuadriCardRule'
 import { RuleId } from './rules/RuleId'
+import { RotateAndConfirmRule } from './rules/RotateAndConfirmRule'
 
 export class QuadriRules
   extends SecretMaterialRules<number, MaterialType, LocationType>
   implements TimeLimit<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number>
 {
   rules = {
-    [RuleId.PlaceQuadriCard]: PlaceQuadriCardRule
+    [RuleId.PlaceQuadriCard]: PlaceQuadriCardRule,
+    [RuleId.RotateAndConfirm]: RotateAndConfirmRule,
   }
 
   hidingStrategies = {
@@ -26,6 +28,7 @@ export class QuadriRules
   locationsStrategies = {
     [MaterialType.QuadriCard]: {
       [LocationType.QuadriDeck]: new PositiveSequenceStrategy(),
+      [LocationType.Table]: new PositiveSequenceStrategy('z'),
     },
     [MaterialType.ObjectiveCard]: {
       [LocationType.ObjectiveDeck]: new PositiveSequenceStrategy(),

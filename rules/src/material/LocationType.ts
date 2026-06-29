@@ -4,4 +4,6 @@ export enum LocationType {
   Table,
   PlayerHand,
   ScoredObjectives,
+  QuadriReveal,
+  QuadriPending,
 }
