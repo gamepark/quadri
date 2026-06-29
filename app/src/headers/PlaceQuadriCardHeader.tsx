@@ -1,10 +1,10 @@
 import { usePlayerId, usePlayerName, useRules } from '@gamepark/react-game'
 import { useTranslation } from 'react-i18next'
-import { GameTemplateRules } from '@gamepark/game-template/GameTemplateRules'
+import { QuadriRules } from '@gamepark/quadri/QuadriRules'
 
 export const PlaceQuadriCardHeader = () => {
   const { t } = useTranslation()
-  const rules = useRules<GameTemplateRules>()
+  const rules = useRules<QuadriRules>()
   const me = usePlayerId()
   const activePlayer = rules?.game.rule?.player
   const isMyTurn = me !== undefined && activePlayer === me

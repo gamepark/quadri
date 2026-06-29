@@ -1,4 +1,4 @@
-import { QuadriCard } from '@gamepark/game-template/material/QuadriCard'
+import { QuadriCard } from '@gamepark/quadri/material/QuadriCard'
 import { CardDescription } from '@gamepark/react-game'
 import card1 from '../images/cartes_quadri/cartes_quadri_01.jpg'
 import card2 from '../images/cartes_quadri/cartes_quadri_02.jpg'

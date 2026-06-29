@@ -1,3 +1,3 @@
-export { GameTemplateRules } from './GameTemplateRules'
-export { GameTemplateOptionsSpec } from './GameTemplateOptions'
-export { GameTemplateSetup } from './GameTemplateSetup'
+export { QuadriRules } from './QuadriRules'
+export { QuadriOptionsSpec } from './QuadriOptions'
+export { QuadriSetup } from './QuadriSetup'

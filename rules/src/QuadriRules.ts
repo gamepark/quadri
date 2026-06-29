@@ -5,7 +5,7 @@ import { PlayerColor } from './PlayerColor'
 import { PlaceQuadriCardRule } from './rules/PlaceQuadriCardRule'
 import { RuleId } from './rules/RuleId'
 
-export class GameTemplateRules
+export class QuadriRules
   extends SecretMaterialRules<PlayerColor, MaterialType, LocationType>
   implements TimeLimit<MaterialGame<PlayerColor, MaterialType, LocationType>, MaterialMove<PlayerColor, MaterialType, LocationType>, PlayerColor>
 {

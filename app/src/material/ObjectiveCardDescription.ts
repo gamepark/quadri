@@ -1,4 +1,4 @@
-import { ObjectiveCard } from '@gamepark/game-template/material/ObjectiveCard'
+import { ObjectiveCard } from '@gamepark/quadri/material/ObjectiveCard'
 import { CardDescription } from '@gamepark/react-game'
 import obj01 from '../images/objectifs/objectif_01.jpg'
 import obj02 from '../images/objectifs/objectif_02.jpg'

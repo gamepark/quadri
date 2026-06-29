@@ -1,4 +1,4 @@
-import { MaterialType } from '@gamepark/game-template/material/MaterialType'
+import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { MaterialDescription } from '@gamepark/react-game'
 import { objectiveCardDescription } from './ObjectiveCardDescription'
 import { quadriCardDescription } from './QuadriCardDescription'

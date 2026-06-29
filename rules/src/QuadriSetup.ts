@@ -1,7 +1,7 @@
 import { getEnumValues, MaterialGameSetup } from '@gamepark/rules-api'
 import { shuffle } from 'es-toolkit/compat'
-import { GameTemplateOptions } from './GameTemplateOptions'
-import { GameTemplateRules } from './GameTemplateRules'
+import { QuadriOptions } from './QuadriOptions'
+import { QuadriRules } from './QuadriRules'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { ObjectiveCard } from './material/ObjectiveCard'
@@ -9,10 +9,10 @@ import { QuadriCard } from './material/QuadriCard'
 import { PlayerColor } from './PlayerColor'
 import { RuleId } from './rules/RuleId'
 
-export class GameTemplateSetup extends MaterialGameSetup<PlayerColor, MaterialType, LocationType, GameTemplateOptions> {
-  Rules = GameTemplateRules
+export class QuadriSetup extends MaterialGameSetup<PlayerColor, MaterialType, LocationType, QuadriOptions> {
+  Rules = QuadriRules
 
-  setupMaterial(_options: GameTemplateOptions) {
+  setupMaterial(_options: QuadriOptions) {
     this.setupQuadriDeck()
     this.setupObjectiveDeck()
     this.placeInitialCard()
