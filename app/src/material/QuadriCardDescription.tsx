@@ -5,6 +5,7 @@ import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { QuadriCard } from '@gamepark/quadri/material/QuadriCard'
 import { CardDescription, ItemContext, ItemMenuButton } from '@gamepark/react-game'
+import { QuadriCardHelp } from './help/QuadriCardHelp'
 import { isMoveItemType, MaterialItem, MaterialMove, MoveItem } from '@gamepark/rules-api'
 import card1 from '../images/cartes_quadri/cartes_quadri_01.jpg'
 import card2 from '../images/cartes_quadri/cartes_quadri_02.jpg'
@@ -18,6 +19,7 @@ class QuadriCardDescription extends CardDescription {
   width = 7
   height = 7
   borderRadius = 0.3
+  help = QuadriCardHelp
 
   images = {
     [QuadriCard.Card1]: card1,

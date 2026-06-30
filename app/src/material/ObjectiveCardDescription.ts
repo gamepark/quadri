@@ -2,6 +2,7 @@ import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { ObjectiveCard } from '@gamepark/quadri/material/ObjectiveCard'
 import { CardDescription, ItemContext } from '@gamepark/react-game'
+import { ObjectiveCardHelp } from './help/ObjectiveCardHelp'
 import { isMoveItemType, MaterialMove } from '@gamepark/rules-api'
 import obj01 from '../images/objectifs/objectif_01.jpg'
 import obj02 from '../images/objectifs/objectif_02.jpg'
@@ -51,6 +52,7 @@ class ObjectiveCardDescription extends CardDescription {
   width = 7
   height = 7
   borderRadius = 0.3
+  help = ObjectiveCardHelp
 
   images = {
     [ObjectiveCard.Objective1]: obj01,
