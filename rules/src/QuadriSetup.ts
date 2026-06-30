@@ -5,15 +5,16 @@ import { QuadriRules } from './QuadriRules'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { ObjectiveCard } from './material/ObjectiveCard'
+import { objectiveValues } from './material/ObjectiveCardPattern'
 import { QuadriCard } from './material/QuadriCard'
 import { RuleId } from './rules/RuleId'
 
 export class QuadriSetup extends MaterialGameSetup<number, MaterialType, LocationType, QuadriOptions> {
   Rules = QuadriRules
 
-  setupMaterial(_options: QuadriOptions) {
+  setupMaterial(options: QuadriOptions) {
     this.setupQuadriDeck()
-    this.setupObjectiveDeck()
+    this.setupObjectiveDeck(options)
     this.placeInitialCard()
     this.dealObjectivesToPlayers()
   }
@@ -26,8 +27,12 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
     this.material(MaterialType.QuadriCard).shuffle()
   }
 
-  setupObjectiveDeck() {
-    const objectives = shuffle(getEnumValues(ObjectiveCard)).slice(0, 30).map(id => ({
+  setupObjectiveDeck(options: QuadriOptions) {
+    const allObjectives = getEnumValues(ObjectiveCard)
+    const pool = options.discoveryMode
+      ? allObjectives.filter(id => objectiveValues[id] < 8)
+      : allObjectives
+    const objectives = shuffle(pool).slice(0, 30).map(id => ({
       id,
       location: { type: LocationType.ObjectiveDeck }
     }))
