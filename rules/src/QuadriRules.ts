@@ -2,6 +2,8 @@ import { CompetitiveScore, hideItemId, hideItemIdToOthers, MaterialGame, Materia
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { CheckObjectivesRule } from './rules/CheckObjectivesRule'
+import { CoopCheckObjectivesRule } from './rules/CoopCheckObjectivesRule'
+import { Memory } from './rules/Memory'
 import { PlaceQuadriCardRule } from './rules/PlaceQuadriCardRule'
 import { RuleId } from './rules/RuleId'
 import { RotateAndConfirmRule } from './rules/RotateAndConfirmRule'
@@ -17,6 +19,7 @@ export class QuadriRules
     [RuleId.PlaceQuadriCard]: PlaceQuadriCardRule,
     [RuleId.RotateAndConfirm]: RotateAndConfirmRule,
     [RuleId.CheckObjectives]: CheckObjectivesRule,
+    [RuleId.CoopCheckObjectives]: CoopCheckObjectivesRule,
   }
 
   hidingStrategies = {
@@ -38,6 +41,7 @@ export class QuadriRules
     [MaterialType.ObjectiveCard]: {
       [LocationType.ObjectiveDeck]: new PositiveSequenceStrategy(),
       [LocationType.PlayerHand]: new PositiveSequenceStrategy(),
+      [LocationType.CoopObjective]: new PositiveSequenceStrategy('x'),
     },
   }
 
@@ -45,11 +49,24 @@ export class QuadriRules
     return 60
   }
 
+  isCooperative(): boolean {
+    return !!this.remind(Memory.Cooperative)
+  }
+
+  hasWonCoop(): boolean | undefined {
+    if (!this.remind(Memory.Cooperative)) return undefined
+    return this.remind<boolean | undefined>(Memory.CoopWon)
+  }
+
   getScore(playerId: number): number {
+    if (this.remind(Memory.Cooperative)) {
+      return this.remind<boolean>(Memory.CoopWon) ? 1 : 0
+    }
     return new ScoreHelper(this.game).getScore(playerId)
   }
 
   getTieBreaker(tieBreaker: number, playerId: number): number | undefined {
+    if (this.remind(Memory.Cooperative)) return undefined
     if (tieBreaker === 1) return new ScoreHelper(this.game).getObjectiveCount(playerId)
     return undefined
   }

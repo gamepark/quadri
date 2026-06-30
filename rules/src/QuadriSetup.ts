@@ -7,16 +7,23 @@ import { MaterialType } from './material/MaterialType'
 import { ObjectiveCard } from './material/ObjectiveCard'
 import { objectiveValues } from './material/ObjectiveCardPattern'
 import { QuadriCard } from './material/QuadriCard'
+import { Memory } from './rules/Memory'
 import { RuleId } from './rules/RuleId'
 
 export class QuadriSetup extends MaterialGameSetup<number, MaterialType, LocationType, QuadriOptions> {
   Rules = QuadriRules
 
   setupMaterial(options: QuadriOptions) {
-    this.setupQuadriDeck()
-    this.setupObjectiveDeck(options)
+    if (options.cooperative) this.memorize(Memory.Cooperative, true)
+    if (options.cooperative) {
+      this.setupCoopQuadriDeck()
+      this.setupCoopObjectives()
+    } else {
+      this.setupQuadriDeck()
+      this.setupObjectiveDeck(options)
+      this.dealObjectivesToPlayers()
+    }
     this.placeInitialCard()
-    this.dealObjectivesToPlayers()
   }
 
   setupQuadriDeck() {
@@ -25,6 +32,23 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
     )
     this.material(MaterialType.QuadriCard).createItems(cards)
     this.material(MaterialType.QuadriCard).shuffle()
+  }
+
+  setupCoopQuadriDeck() {
+    const all = getEnumValues(QuadriCard).flatMap(type => Array.from({ length: 8 }, () => type))
+    const selected = shuffle(all).slice(0, 20)
+    this.material(MaterialType.QuadriCard).createItems(
+      selected.map(id => ({ id, location: { type: LocationType.QuadriDeck } }))
+    )
+    this.material(MaterialType.QuadriCard).shuffle()
+  }
+
+  setupCoopObjectives() {
+    const eligible = getEnumValues(ObjectiveCard)
+      .filter(id => objectiveValues[id] === 4 || objectiveValues[id] === 5)
+    this.material(MaterialType.ObjectiveCard).createItems(
+      shuffle(eligible).slice(0, 10).map(id => ({ id, location: { type: LocationType.CoopObjective } }))
+    )
   }
 
   setupObjectiveDeck(options: QuadriOptions) {

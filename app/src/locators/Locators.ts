@@ -1,6 +1,7 @@
 import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { Locator } from '@gamepark/react-game'
+import { coopObjectiveLocator } from './CoopObjectiveLocator'
 import { objectiveDeckLocator } from './ObjectiveDeckLocator'
 import { playerHandLocator } from './PlayerHandLocator'
 import { quadriDeckLocator } from './QuadriDeckLocator'
@@ -16,4 +17,5 @@ export const Locators: Partial<Record<LocationType, Locator<number, MaterialType
   [LocationType.QuadriPending]: tableLocator,
   [LocationType.PlayerHand]: playerHandLocator,
   [LocationType.ScoredObjectives]: scoredObjectivesLocator,
+  [LocationType.CoopObjective]: coopObjectiveLocator,
 }

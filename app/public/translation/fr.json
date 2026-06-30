@@ -1,4 +1,7 @@
 {
+  "option.cooperative": "Version coopérative",
+  "coop.victory": "Bravo, vous remportez la partie !",
+  "coop.defeat": "Vous avez perdu...",
   "option.discovery": "Mode découverte",
   "header.place-card.mine": "Placez une carte Quadri sur la table",
   "header.place-card.other": "{{player}} place une carte Quadri",

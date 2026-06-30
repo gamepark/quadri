@@ -6,4 +6,5 @@ export enum LocationType {
   ScoredObjectives,
   QuadriReveal,
   QuadriPending,
+  CoopObjective,
 }

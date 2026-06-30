@@ -1,4 +1,6 @@
 export enum Memory {
   NextPlayer = 'NextPlayer',
-  LastPlayer = 'LastPlayer'
+  LastPlayer = 'LastPlayer',
+  Cooperative = 'Cooperative',
+  CoopWon = 'CoopWon'
 }

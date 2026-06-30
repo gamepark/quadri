@@ -25,9 +25,12 @@ export class RotateAndConfirmRule extends PlayerTurnRule<number, MaterialType, L
       const pendingCard = this.material(MaterialType.QuadriCard).location(LocationType.QuadriPending)
       const item = pendingCard.getItem()!
       this.memorize(Memory.NextPlayer, this.nextPlayer)
+      const nextRule = this.remind<boolean>(Memory.Cooperative)
+        ? this.startRule(RuleId.CoopCheckObjectives)
+        : this.startSimultaneousRule(RuleId.CheckObjectives)
       return [
         pendingCard.moveItem({ type: LocationType.Table, x: item.location.x, y: item.location.y, rotation: item.location.rotation }),
-        this.startSimultaneousRule(RuleId.CheckObjectives),
+        nextRule,
       ]
     }
     return []
