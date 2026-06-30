@@ -64,8 +64,19 @@ class QuadriCardDescription extends CardDescription {
 const buttonCss = css`
   width: 2.5em;
   height: 2.5em;
-  border-radius: 50%;
+  border-radius: 50% !important;
   font-size: 1.3em;
+  background-color: rgba(8, 8, 15, 0.88) !important;
+  color: #00C8E0 !important;
+  border: 0.1em solid #00C8E0 !important;
+  box-shadow: 0 0 0.5em rgba(0, 200, 224, 0.35) !important;
+  transition: background-color 120ms ease, box-shadow 120ms ease !important;
+
+  &:hover {
+    background-color: #00C8E0 !important;
+    color: #08080F !important;
+    box-shadow: 0 0 0.9em rgba(0, 229, 255, 0.55) !important;
+  }
 `
 
 export const quadriCardDescription = new QuadriCardDescription()
