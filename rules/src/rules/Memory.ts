@@ -1,3 +1,4 @@
 export enum Memory {
-  NextPlayer = 'NextPlayer'
+  NextPlayer = 'NextPlayer',
+  LastPlayer = 'LastPlayer'
 }

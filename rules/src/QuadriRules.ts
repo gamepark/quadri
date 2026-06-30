@@ -1,14 +1,17 @@
-import { hideItemId, hideItemIdToOthers, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { CompetitiveScore, hideItemId, hideItemIdToOthers, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { CheckObjectivesRule } from './rules/CheckObjectivesRule'
 import { PlaceQuadriCardRule } from './rules/PlaceQuadriCardRule'
 import { RuleId } from './rules/RuleId'
 import { RotateAndConfirmRule } from './rules/RotateAndConfirmRule'
+import { ScoreHelper } from './rules/ScoreHelper'
 
 export class QuadriRules
   extends SecretMaterialRules<number, MaterialType, LocationType>
-  implements TimeLimit<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number>
+  implements
+    TimeLimit<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number>,
+    CompetitiveScore<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number>
 {
   rules = {
     [RuleId.PlaceQuadriCard]: PlaceQuadriCardRule,
@@ -40,5 +43,14 @@ export class QuadriRules
 
   giveTime(): number {
     return 60
+  }
+
+  getScore(playerId: number): number {
+    return new ScoreHelper(this.game).getScore(playerId)
+  }
+
+  getTieBreaker(tieBreaker: number, playerId: number): number | undefined {
+    if (tieBreaker === 1) return new ScoreHelper(this.game).getObjectiveCount(playerId)
+    return undefined
   }
 }

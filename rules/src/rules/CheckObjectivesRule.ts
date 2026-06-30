@@ -64,6 +64,20 @@ export class CheckObjectivesRule extends SimultaneousRule<number, MaterialType, 
   }
 
   getMovesAfterPlayersDone(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
-    return [this.startPlayerTurn(RuleId.PlaceQuadriCard, this.remind<number>(Memory.NextPlayer))]
+    const lastPlayer = this.remind<number | undefined>(Memory.LastPlayer)
+    const nextPlayer = this.remind<number>(Memory.NextPlayer)
+
+    if (lastPlayer !== undefined && nextPlayer === lastPlayer) {
+      return [this.endGame()]
+    }
+
+    if (lastPlayer === undefined) {
+      const deck = this.material(MaterialType.ObjectiveCard).location(LocationType.ObjectiveDeck)
+      if (deck.length === 0) {
+        this.memorize(Memory.LastPlayer, nextPlayer)
+      }
+    }
+
+    return [this.startPlayerTurn(RuleId.PlaceQuadriCard, nextPlayer)]
   }
 }

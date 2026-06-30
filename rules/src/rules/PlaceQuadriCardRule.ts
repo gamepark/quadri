@@ -7,7 +7,7 @@ import { computeValidPositions } from './placement'
 export class PlaceQuadriCardRule extends PlayerTurnRule<number, MaterialType, LocationType, RuleId> {
   onRuleStart(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     const deck = this.material(MaterialType.QuadriCard).location(LocationType.QuadriDeck)
-    if (deck.length === 0) return []
+    if (deck.length === 0) return [this.endGame()]
     return [deck.deck().moveItem({ type: LocationType.QuadriReveal })]
   }
 
