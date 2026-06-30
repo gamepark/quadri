@@ -1,6 +1,7 @@
 import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { Locator } from '@gamepark/react-game'
+import { ballTrapEliminatedLocator } from './BallTrapEliminatedLocator'
 import { coopObjectiveLocator } from './CoopObjectiveLocator'
 import { objectiveDeckLocator } from './ObjectiveDeckLocator'
 import { playerHandLocator } from './PlayerHandLocator'
@@ -18,4 +19,6 @@ export const Locators: Partial<Record<LocationType, Locator<number, MaterialType
   [LocationType.PlayerHand]: playerHandLocator,
   [LocationType.ScoredObjectives]: scoredObjectivesLocator,
   [LocationType.CoopObjective]: coopObjectiveLocator,
+  [LocationType.BallTrapHand]: playerHandLocator,
+  [LocationType.BallTrapEliminated]: ballTrapEliminatedLocator,
 }

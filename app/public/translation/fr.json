@@ -1,5 +1,6 @@
 {
   "option.cooperative": "Version coopérative",
+  "option.balltrap": "Version ball-trap",
   "coop.victory": "Bravo, vous remportez la partie !",
   "coop.defeat": "Vous avez perdu...",
   "option.discovery": "Mode découverte",
@@ -8,5 +9,9 @@
   "header.rotate-confirm.mine": "Faites pivoter la carte ou <confirm>Validez</confirm>",
   "header.rotate-confirm.other": "{{player}} fait pivoter ou valide sa carte",
   "header.check-objectives.mine": "Cliquez sur un objectif réalisé pour le scorer",
-  "header.check-objectives.other": "Les joueurs vérifient leurs objectifs"
+  "header.check-objectives.other": "Les joueurs vérifient leurs objectifs",
+  "header.balltrap-check.mine": "Cliquez sur l'objectif réalisé d'un adversaire pour l'éliminer",
+  "header.balltrap-check.other": "Les joueurs vérifient les objectifs adverses",
+  "balltrap.victory": "Bravo, vous êtes le dernier avec des objectifs !",
+  "balltrap.defeat": "Vous avez perdu, tous vos objectifs ont été éliminés..."
 }

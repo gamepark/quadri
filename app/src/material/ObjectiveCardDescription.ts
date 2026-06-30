@@ -101,7 +101,9 @@ class ObjectiveCardDescription extends CardDescription {
 
   canShortClick(move: MaterialMove, context: ItemContext): boolean {
     if (!isMoveItemType(MaterialType.ObjectiveCard)(move)) return false
-    return move.itemIndex === context.index && move.location.type === LocationType.ScoredObjectives
+    if (move.itemIndex !== context.index) return false
+    return move.location.type === LocationType.ScoredObjectives
+      || move.location.type === LocationType.BallTrapEliminated
   }
 }
 

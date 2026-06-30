@@ -27,7 +27,9 @@ export class RotateAndConfirmRule extends PlayerTurnRule<number, MaterialType, L
       this.memorize(Memory.NextPlayer, this.nextPlayer)
       const nextRule = this.remind<boolean>(Memory.Cooperative)
         ? this.startRule(RuleId.CoopCheckObjectives)
-        : this.startSimultaneousRule(RuleId.CheckObjectives)
+        : this.remind<boolean>(Memory.BallTrap)
+          ? this.startSimultaneousRule(RuleId.BallTrapCheckObjectives)
+          : this.startSimultaneousRule(RuleId.CheckObjectives)
       return [
         pendingCard.moveItem({ type: LocationType.Table, x: item.location.x, y: item.location.y, rotation: item.location.rotation }),
         nextRule,

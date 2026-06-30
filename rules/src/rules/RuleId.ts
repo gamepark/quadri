@@ -3,4 +3,5 @@ export enum RuleId {
   RotateAndConfirm,
   CheckObjectives,
   CoopCheckObjectives,
+  BallTrapCheckObjectives,
 }

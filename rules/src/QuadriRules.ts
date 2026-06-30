@@ -1,6 +1,7 @@
-import { CompetitiveScore, hideItemId, hideItemIdToOthers, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { CompetitiveScore, hideItemId, hideItemIdToOthers, MaterialGame, MaterialItem, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
+import { BallTrapCheckRule } from './rules/BallTrapCheckRule'
 import { CheckObjectivesRule } from './rules/CheckObjectivesRule'
 import { CoopCheckObjectivesRule } from './rules/CoopCheckObjectivesRule'
 import { Memory } from './rules/Memory'
@@ -8,6 +9,9 @@ import { PlaceQuadriCardRule } from './rules/PlaceQuadriCardRule'
 import { RuleId } from './rules/RuleId'
 import { RotateAndConfirmRule } from './rules/RotateAndConfirmRule'
 import { ScoreHelper } from './rules/ScoreHelper'
+
+const hideItemIdFromOwner = (item: MaterialItem<number, LocationType>, player?: number): string[] =>
+  item.location.player === player ? ['id'] : []
 
 export class QuadriRules
   extends SecretMaterialRules<number, MaterialType, LocationType>
@@ -20,6 +24,7 @@ export class QuadriRules
     [RuleId.RotateAndConfirm]: RotateAndConfirmRule,
     [RuleId.CheckObjectives]: CheckObjectivesRule,
     [RuleId.CoopCheckObjectives]: CoopCheckObjectivesRule,
+    [RuleId.BallTrapCheckObjectives]: BallTrapCheckRule,
   }
 
   hidingStrategies = {
@@ -30,6 +35,7 @@ export class QuadriRules
     [MaterialType.ObjectiveCard]: {
       [LocationType.ObjectiveDeck]: hideItemId,
       [LocationType.PlayerHand]: hideItemIdToOthers,
+      [LocationType.BallTrapHand]: hideItemIdFromOwner,
     },
   }
 
@@ -42,6 +48,8 @@ export class QuadriRules
       [LocationType.ObjectiveDeck]: new PositiveSequenceStrategy(),
       [LocationType.PlayerHand]: new PositiveSequenceStrategy(),
       [LocationType.CoopObjective]: new PositiveSequenceStrategy('x'),
+      [LocationType.BallTrapHand]: new PositiveSequenceStrategy(),
+      [LocationType.BallTrapEliminated]: new PositiveSequenceStrategy(),
     },
   }
 
@@ -53,6 +61,10 @@ export class QuadriRules
     return !!this.remind(Memory.Cooperative)
   }
 
+  isBallTrap(): boolean {
+    return !!this.remind(Memory.BallTrap)
+  }
+
   hasWonCoop(): boolean | undefined {
     if (!this.remind(Memory.Cooperative)) return undefined
     return this.remind<boolean | undefined>(Memory.CoopWon)
@@ -62,11 +74,15 @@ export class QuadriRules
     if (this.remind(Memory.Cooperative)) {
       return this.remind<boolean>(Memory.CoopWon) ? 1 : 0
     }
+    if (this.remind(Memory.BallTrap)) {
+      return this.material(MaterialType.ObjectiveCard)
+        .location(LocationType.BallTrapHand).player(playerId).length > 0 ? 1 : 0
+    }
     return new ScoreHelper(this.game).getScore(playerId)
   }
 
   getTieBreaker(tieBreaker: number, playerId: number): number | undefined {
-    if (this.remind(Memory.Cooperative)) return undefined
+    if (this.remind(Memory.Cooperative) || this.remind(Memory.BallTrap)) return undefined
     if (tieBreaker === 1) return new ScoreHelper(this.game).getObjectiveCount(playerId)
     return undefined
   }

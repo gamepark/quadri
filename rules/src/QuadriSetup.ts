@@ -15,9 +15,14 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
 
   setupMaterial(options: QuadriOptions) {
     if (options.cooperative) this.memorize(Memory.Cooperative, true)
+    if (options.balltrap) this.memorize(Memory.BallTrap, true)
+
     if (options.cooperative) {
       this.setupCoopQuadriDeck()
       this.setupCoopObjectives()
+    } else if (options.balltrap) {
+      this.setupQuadriDeck()
+      this.dealBallTrapObjectivesToPlayers()
     } else {
       this.setupQuadriDeck()
       this.setupObjectiveDeck(options)
@@ -78,6 +83,18 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
         .deck()
         .deal({ type: LocationType.PlayerHand, player }, 3)
     }
+  }
+
+  dealBallTrapObjectivesToPlayers() {
+    const eligible = getEnumValues(ObjectiveCard)
+      .filter(id => objectiveValues[id] === 4 || objectiveValues[id] === 5)
+    const needed = this.players.length * 3
+    const selected = shuffle(eligible).slice(0, needed)
+    const items = selected.map((id, index) => ({
+      id,
+      location: { type: LocationType.BallTrapHand, player: this.players[Math.floor(index / 3)] }
+    }))
+    this.material(MaterialType.ObjectiveCard).createItems(items)
   }
 
   start() {

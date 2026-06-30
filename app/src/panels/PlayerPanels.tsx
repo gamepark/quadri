@@ -10,7 +10,7 @@ export const PlayerPanels = () => {
   const root = document.getElementById('root')
   if (!root) return null
 
-  const isCooperative = rules.isCooperative()
+  const showScore = !rules.isCooperative() && !rules.isBallTrap()
 
   return createPortal(
     <>
@@ -19,7 +19,7 @@ export const PlayerPanels = () => {
           key={player.id}
           player={player}
           css={panelPosition(index)}
-          counters={isCooperative ? [] : [{ image: objBack, value: rules.getScore(player.id) }]}
+          counters={showScore ? [{ image: objBack, value: rules.getScore(player.id) }] : []}
           activeRing
         />
       ))}
