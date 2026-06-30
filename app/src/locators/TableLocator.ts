@@ -1,4 +1,3 @@
-import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { Locator, MaterialContext } from '@gamepark/react-game'
 import { Location, MaterialItem } from '@gamepark/rules-api'
 
@@ -15,11 +14,15 @@ class TableLocator extends Locator {
     }
   }
 
+  getLocationIndex(location: Location) {
+    return location.z
+  }
+
   getItemCoordinates(item: MaterialItem) {
     return {
       x: (item.location.x ?? 0) * squareSize,
       y: (item.location.y ?? 0) * squareSize,
-      z: item.location.type === LocationType.QuadriPending ? 999 : (item.location.z ?? 0),
+      z: (item.location.z ?? 0) * 0.05,
     }
   }
 

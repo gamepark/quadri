@@ -6,7 +6,7 @@ type Position = { x: number; y: number; baseAngle: number }
 const positionsByPlayerCount: Record<number, Position[]> = {
   2: [
     { x: -30, y: 24, baseAngle: 0 },
-    { x: 30, y: 24, baseAngle: 0 },
+    { x: 40, y: 24, baseAngle: 0 },
   ],
   3: [
     { x: 0, y: 24, baseAngle: 180 },

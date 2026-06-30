@@ -1,5 +1,8 @@
+import { LocationType } from '@gamepark/quadri/material/LocationType'
+import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { ObjectiveCard } from '@gamepark/quadri/material/ObjectiveCard'
-import { CardDescription } from '@gamepark/react-game'
+import { CardDescription, ItemContext } from '@gamepark/react-game'
+import { isMoveItemType, MaterialMove } from '@gamepark/rules-api'
 import obj01 from '../images/objectifs/objectif_01.jpg'
 import obj02 from '../images/objectifs/objectif_02.jpg'
 import obj03 from '../images/objectifs/objectif_03.jpg'
@@ -95,6 +98,11 @@ class ObjectiveCardDescription extends CardDescription {
   }
 
   backImage = objBack
+
+  canShortClick(move: MaterialMove, context: ItemContext): boolean {
+    if (!isMoveItemType(MaterialType.ObjectiveCard)(move)) return false
+    return move.itemIndex === context.index && move.location.type === LocationType.ScoredObjectives
+  }
 }
 
 export const objectiveCardDescription = new ObjectiveCardDescription()

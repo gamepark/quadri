@@ -1,6 +1,7 @@
 import { hideItemId, hideItemIdToOthers, MaterialGame, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
+import { CheckObjectivesRule } from './rules/CheckObjectivesRule'
 import { PlaceQuadriCardRule } from './rules/PlaceQuadriCardRule'
 import { RuleId } from './rules/RuleId'
 import { RotateAndConfirmRule } from './rules/RotateAndConfirmRule'
@@ -12,6 +13,7 @@ export class QuadriRules
   rules = {
     [RuleId.PlaceQuadriCard]: PlaceQuadriCardRule,
     [RuleId.RotateAndConfirm]: RotateAndConfirmRule,
+    [RuleId.CheckObjectives]: CheckObjectivesRule,
   }
 
   hidingStrategies = {

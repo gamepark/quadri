@@ -3,6 +3,16 @@ import { MaterialItem } from '@gamepark/rules-api'
 export function computeValidPositions(tableCards: MaterialItem[]): { x: number; y: number }[] {
   if (tableCards.length === 0) return [{ x: 0, y: 0 }]
 
+  const occupiedSquares = new Set<string>()
+  for (const card of tableCards) {
+    const cx = card.location.x ?? 0
+    const cy = card.location.y ?? 0
+    occupiedSquares.add(`${cx},${cy}`)
+    occupiedSquares.add(`${cx + 1},${cy}`)
+    occupiedSquares.add(`${cx},${cy + 1}`)
+    occupiedSquares.add(`${cx + 1},${cy + 1}`)
+  }
+
   const candidates = new Set<string>()
   for (const card of tableCards) {
     const cx = card.location.x ?? 0
@@ -15,16 +25,15 @@ export function computeValidPositions(tableCards: MaterialItem[]): { x: number; 
   }
 
   const validPositions: { x: number; y: number }[] = []
-
   for (const key of candidates) {
     const [x, y] = key.split(',').map(Number)
-    const totalOverlap = tableCards.reduce((sum, card) => {
-      const dx = Math.abs(x - (card.location.x ?? 0))
-      const dy = Math.abs(y - (card.location.y ?? 0))
-      return dx <= 1 && dy <= 1 ? sum + (2 - dx) * (2 - dy) : sum
-    }, 0)
+    const overlap =
+      (occupiedSquares.has(`${x},${y}`) ? 1 : 0) +
+      (occupiedSquares.has(`${x + 1},${y}`) ? 1 : 0) +
+      (occupiedSquares.has(`${x},${y + 1}`) ? 1 : 0) +
+      (occupiedSquares.has(`${x + 1},${y + 1}`) ? 1 : 0)
 
-    if (totalOverlap >= 1 && totalOverlap <= 3) {
+    if (overlap >= 1 && overlap <= 3) {
       validPositions.push({ x, y })
     }
   }

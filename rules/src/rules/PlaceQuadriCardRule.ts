@@ -17,9 +17,10 @@ export class PlaceQuadriCardRule extends PlayerTurnRule<number, MaterialType, Lo
 
     const tableCards = this.material(MaterialType.QuadriCard).location(LocationType.Table).getItems()
     const validPositions = computeValidPositions(tableCards)
+    const z = tableCards.length
 
     return validPositions.map(({ x, y }) =>
-      revealedCard.moveItem({ type: LocationType.QuadriPending, x, y, rotation: 0 })
+      revealedCard.moveItem({ type: LocationType.QuadriPending, x, y, rotation: 0, z })
     )
   }
 
