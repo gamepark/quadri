@@ -103,7 +103,7 @@ class ObjectiveCardDescription extends CardDescription {
     if (!isMoveItemType(MaterialType.ObjectiveCard)(move)) return false
     if (move.itemIndex !== context.index) return false
     return move.location.type === LocationType.ScoredObjectives
-      || move.location.type === LocationType.BallTrapEliminated
+      || move.location.type === LocationType.BallTrapEliminatedObjectives
   }
 }
 

@@ -36,6 +36,7 @@ export class QuadriRules
       [LocationType.ObjectiveDeck]: hideItemId,
       [LocationType.PlayerHand]: hideItemIdToOthers,
       [LocationType.BallTrapHand]: hideItemIdFromOwner,
+      [LocationType.CoopRealisedObjectives]: hideItemId,
     },
   }
 
@@ -49,7 +50,8 @@ export class QuadriRules
       [LocationType.PlayerHand]: new PositiveSequenceStrategy(),
       [LocationType.CoopObjective]: new PositiveSequenceStrategy('x'),
       [LocationType.BallTrapHand]: new PositiveSequenceStrategy(),
-      [LocationType.BallTrapEliminated]: new PositiveSequenceStrategy(),
+      [LocationType.BallTrapEliminatedObjectives]: new PositiveSequenceStrategy(),
+      [LocationType.CoopRealisedObjectives]: new PositiveSequenceStrategy(),
     },
   }
 

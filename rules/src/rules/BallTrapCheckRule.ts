@@ -21,7 +21,7 @@ export class BallTrapCheckRule extends SimultaneousRule<number, MaterialType, Lo
       const hand = this.material(MaterialType.ObjectiveCard).location(LocationType.BallTrapHand).player(opponent)
       for (const item of hand.getItems()) {
         if (isObjectiveRealized(objectivePatterns[item.id as ObjectiveCard], colorMap)) {
-          moves.push(hand.id(item.id).moveItem({ type: LocationType.BallTrapEliminated, player }))
+          moves.push(hand.id(item.id).moveItem({ type: LocationType.BallTrapEliminatedObjectives, player }))
         }
       }
     }
@@ -33,7 +33,7 @@ export class BallTrapCheckRule extends SimultaneousRule<number, MaterialType, Lo
 
   afterItemMove(move: ItemMove<number, MaterialType, LocationType>): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     if (!isMoveItem(move) || move.itemType !== MaterialType.ObjectiveCard) return []
-    if (move.location.type !== LocationType.BallTrapEliminated) return []
+    if (move.location.type !== LocationType.BallTrapEliminatedObjectives) return []
 
     const actingPlayer = move.location.player!
     const colorMap = buildColorMap(

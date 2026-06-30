@@ -17,7 +17,7 @@ export class CoopCheckObjectivesRule extends MaterialRulesPart<number, MaterialT
     const moves: MaterialMove<number, MaterialType, LocationType, RuleId>[] = []
     for (const item of remaining.getItems()) {
       if (isObjectiveRealized(objectivePatterns[item.id as ObjectiveCard], colorMap)) {
-        moves.push(remaining.id(item.id).deleteItem())
+        moves.push(remaining.id(item.id).moveItem({ type: LocationType.CoopRealisedObjectives }))
       }
     }
     const willRemain = remaining.length - moves.length

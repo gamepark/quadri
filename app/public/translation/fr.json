@@ -10,6 +10,7 @@
   "header.rotate-confirm.other": "{{player}} fait pivoter ou valide sa carte",
   "header.check-objectives.mine": "Cliquez sur un objectif réalisé pour le scorer",
   "header.check-objectives.other": "Les joueurs vérifient leurs objectifs",
+  "header.coop-check": "Vérification des objectifs communs...",
   "header.balltrap-check.mine": "Cliquez sur l'objectif réalisé d'un adversaire pour l'éliminer",
   "header.balltrap-check.other": "Les joueurs vérifient les objectifs adverses",
   "balltrap.victory": "Bravo, vous êtes le dernier avec des objectifs !",

@@ -8,5 +8,6 @@ export enum LocationType {
   QuadriPending,
   CoopObjective,
   BallTrapHand,
-  BallTrapEliminated,
+  BallTrapEliminatedObjectives,
+  CoopRealisedObjectives,
 }
