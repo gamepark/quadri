@@ -11,14 +11,14 @@ const cardHalf = squareSize  // half of 7cm card = 3.5cm
 const padding = 15           // breathing room around occupied area (cm)
 
 // Minimum visible area (original defaults)
-const MIN_X = -50
-const MAX_X = 50
+const MIN_X = -60
+const MAX_X = 60
 const MIN_Y = -30
 const MAX_Y = 30
 
 export function GameDisplay() {
   const game = useGame<MaterialGame>()
-  const margin = { top: 7, left: 0, right: 30, bottom: 0 }
+  const margin = { top: 7, left: 0, right: 0, bottom: 0 }
 
   let xMin = MIN_X
   let xMax = MAX_X
@@ -55,7 +55,7 @@ export function GameDisplay() {
 
   return (
     <>
-      <GameTable xMin={xMin} xMax={xMax} yMin={yMin} yMax={yMax} margin={margin} css={process.env.NODE_ENV === 'development' && tableBorder}>
+      <GameTable xMin={xMin} xMax={xMax} yMin={yMin} yMax={yMax} margin={margin} zoom={false} css={process.env.NODE_ENV === 'development' && tableBorder}>
         <GameTableNavigation />
         <PlayerPanels />
         {process.env.NODE_ENV === 'development' && <DevToolsHub fabBottom="calc(5em)" />}
