@@ -1,4 +1,5 @@
 {
+  "more.than.4.players.require.coop": "La version compétitive ne peut pas se jouer avec plus de 4 joueurs.",
   "option.cooperative": "Version coopérative",
   "option.cooperative.help": "Réalisez 10 objectifs communs avec 20 cartes Quadri, sans communiquer d'aucune façon. La partie est gagnée si tous les objectifs sont retournés avant que la pioche ne soit épuisée. (1 à 6 joueurs)",
   "option.advanced.cooperative": "Version coopérative avancée",
