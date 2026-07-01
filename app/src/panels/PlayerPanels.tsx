@@ -2,7 +2,7 @@ import { css } from '@emotion/react'
 import { QuadriRules } from '@gamepark/quadri/QuadriRules'
 import { StyledPlayerPanel, usePlayers, useRules } from '@gamepark/react-game'
 import { createPortal } from 'react-dom'
-import objBack from '../images/objectifs/objectif_dos.jpg'
+import star from '../images/star.png'
 
 // CMYK: player 1 = Cyan, 2 = Magenta, 3 = Yellow, 4 = Key (black)
 const cmykColors: Record<number, { border: string; bg: string }> = {
@@ -10,6 +10,8 @@ const cmykColors: Record<number, { border: string; bg: string }> = {
   2: { border: '#DC00C8', bg: 'rgba(220, 0, 200, 0.60)' },
   3: { border: '#E0D000', bg: 'rgba(224, 208, 0, 0.60)' },
   4: { border: '#000000', bg: 'rgba(0, 0, 0, 0.60)' },
+  5: { border: '#F0F0EC', bg: 'rgba(240, 240, 236, 0.60)' },
+  6: { border: '#8800C8', bg: 'rgba(136, 0, 200, 0.60)' },
 }
 
 export const PlayerPanels = () => {
@@ -29,7 +31,7 @@ export const PlayerPanels = () => {
             key={player.id}
             player={player}
             css={[panelPosition(index), playerColorCss(color)]}
-            counters={showScore ? [{ image: objBack, value: rules.getScore(player.id) }] : []}
+            counters={showScore ? [{ image: star, value: rules.getScore(player.id) }] : []}
             activeRing
           />
         )
