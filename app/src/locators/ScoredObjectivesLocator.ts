@@ -1,12 +1,18 @@
 import { MaterialContext, DeckLocator } from '@gamepark/react-game'
-import { Location } from '@gamepark/rules-api'
-import { playerHandLocator } from './PlayerHandLocator.ts'
+import { Location, LocationType } from '@gamepark/rules-api'
+import { getEdgeOrigin, toEdgeCoords } from './edgeOrigin'
+import { playerHandLocator } from './PlayerHandLocator'
 
 class ScoredObjectivesLocator extends DeckLocator {
 
   getCoordinates(location: Location, context: MaterialContext) {
-    const playerHand = playerHandLocator.getCoordinates(location, context)
-    return { x: playerHand.x - 15, y: playerHand.y }
+    const abs = playerHandLocator.getAbsoluteCoordinates(location, context)
+    return toEdgeCoords(abs.x - 15, abs.y)
+  }
+
+  getLocationOrigin(location: Location<number, LocationType>, context: MaterialContext) {
+    const abs = playerHandLocator.getAbsoluteCoordinates(location, context)
+    return getEdgeOrigin(abs.x - 15, abs.y)
   }
 }
 

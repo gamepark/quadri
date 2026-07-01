@@ -1,11 +1,11 @@
-import { DeckLocator, MaterialContext } from '@gamepark/react-game'
-import { Location } from '@gamepark/rules-api'
+import { DeckLocator } from '@gamepark/react-game'
+import { getEdgeOrigin, toEdgeCoords } from './edgeOrigin'
+
+const ABS = { x: -40, y: 5 }
 
 class QuadriDeckLocator extends DeckLocator {
-  getCoordinates(_location: Location, _context: MaterialContext) {
-    return { x: -40, y: 5 }
-  }
-
+  locationOrigin = getEdgeOrigin(ABS.x, ABS.y)
+  getCoordinates() { return toEdgeCoords(ABS.x, ABS.y) }
   navigationSorts = []
 }
 

@@ -1,5 +1,6 @@
 import { getRelativePlayerIndex, HandLocator, MaterialContext } from '@gamepark/react-game'
-import { Location } from '@gamepark/rules-api'
+import { Location, LocationType } from '@gamepark/rules-api'
+import { getEdgeOrigin, toEdgeCoords } from './edgeOrigin'
 
 type Position = { x: number; y: number; baseAngle: number }
 
@@ -38,12 +39,22 @@ const positionsByPlayerCount: Record<number, Position[]> = {
 
 class PlayerHandLocator extends HandLocator {
 
-  getCoordinates(location: Location, context: MaterialContext) {
+  getAbsoluteCoordinates(location: Location, context: MaterialContext): { x: number; y: number } {
     const playerCount = context.rules.players.length
     const index = getRelativePlayerIndex(context, location.player)
     const positions = positionsByPlayerCount[playerCount] ?? positionsByPlayerCount[6]
     const pos = positions[index] ?? positions[0]
     return { x: pos.x, y: pos.y }
+  }
+
+  getCoordinates(location: Location, context: MaterialContext) {
+    const abs = this.getAbsoluteCoordinates(location, context)
+    return toEdgeCoords(abs.x, abs.y)
+  }
+
+  getLocationOrigin(location: Location<number, LocationType>, context: MaterialContext) {
+    const abs = this.getAbsoluteCoordinates(location, context)
+    return getEdgeOrigin(abs.x, abs.y)
   }
 
   getBaseAngle(location: Location, context: MaterialContext) {
