@@ -14,12 +14,12 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
   Rules = QuadriRules
 
   setupMaterial(options: QuadriOptions) {
-    if (options.cooperative) this.memorize(Memory.Cooperative, true)
+    if (options.cooperative || options.advancedCooperative) this.memorize(Memory.Cooperative, true)
     if (options.balltrap) this.memorize(Memory.BallTrap, true)
 
-    if (options.cooperative) {
+    if (options.cooperative || options.advancedCooperative) {
       this.setupCoopQuadriDeck()
-      this.setupCoopObjectives()
+      this.setupCoopObjectives(options.advancedCooperative)
     } else if (options.balltrap) {
       this.setupQuadriDeck()
       this.dealBallTrapObjectivesToPlayers()
@@ -48,8 +48,11 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
     this.material(MaterialType.QuadriCard).shuffle()
   }
 
-  setupCoopObjectives() {
-    const eligible = getEnumValues(ObjectiveCard)
+  setupCoopObjectives(isAdvanced: boolean) {
+    const allObjectives = getEnumValues(ObjectiveCard)
+    const eligible = isAdvanced
+      ? allObjectives.filter(id => objectiveValues[id] > 3)
+      : allObjectives
       .filter(id => objectiveValues[id] === 4 || objectiveValues[id] === 5)
     this.material(MaterialType.ObjectiveCard).createItems(
       shuffle(eligible).slice(0, 10).map(id => ({ id, location: { type: LocationType.CoopObjective } }))
@@ -60,6 +63,8 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
     const allObjectives = getEnumValues(ObjectiveCard)
     const pool = options.discoveryMode
       ? allObjectives.filter(id => objectiveValues[id] < 8)
+      : options.advancedMode
+      ? allObjectives.filter(id => objectiveValues[id] > 3)
       : allObjectives
     const objectives = shuffle(pool).slice(0, 30).map(id => ({
       id,

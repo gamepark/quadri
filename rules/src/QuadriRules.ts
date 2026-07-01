@@ -52,6 +52,7 @@ export class QuadriRules
       [LocationType.BallTrapHand]: new PositiveSequenceStrategy(),
       [LocationType.BallTrapEliminatedObjectives]: new PositiveSequenceStrategy(),
       [LocationType.CoopRealisedObjectives]: new PositiveSequenceStrategy(),
+      [LocationType.ScoredObjectives]: new PositiveSequenceStrategy(),
     },
   }
 
