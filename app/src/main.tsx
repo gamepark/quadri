@@ -10,6 +10,7 @@ import { QuadriLogs } from './history/QuadriLogs'
 import { Locators } from './locators/Locators'
 import { Material } from './material/Material'
 import { theme } from './theme'
+import { Tutorial } from './tutorial/Tutorial'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -23,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
       animations={gameAnimations}
       logs={new QuadriLogs()}
       theme={theme}
+      tutorial={new Tutorial()}
     >
       <App />
     </GameProvider>

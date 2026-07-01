@@ -46,5 +46,14 @@
   "log.eliminate-objective": "{eliminator} a éliminé <card></card> à {target}",
   "log.coop-objective-realised": "Objectif commun réalisé <card></card>",
   "balltrap.victory": "Bravo, vous êtes le dernier avec des objectifs !",
-  "balltrap.defeat": "Vous avez perdu, tous vos objectifs ont été éliminés..."
+  "balltrap.defeat": "Vous avez perdu, tous vos objectifs ont été éliminés...",
+  "tuto.welcome": "Bienvenue dans <b>Quadri</b> ! Votre mission : reproduire des motifs de couleurs sur la table pour marquer un maximum de points.",
+  "tuto.initial-card": "La partie débute avec une <b>carte Quadri</b> au centre de la table. Chaque carte est composée de 4 carrés de couleur différente : cyan, magenta, jaune et noir.",
+  "tuto.revealed-card": "Voici la carte que vous venez de piocher. À votre tour, vous devez la poser sur la table en <b>recouvrant de 1 à 3 carrés</b> de cartes déjà placées.",
+  "tuto.objectives": "Voici vos 3 <b>cartes Objectif</b>. Chacune montre un motif à reproduire sur la table. Réalisez-le pour marquer les points indiqués — même en jeu adverse !",
+  "tuto.place-card": "Posez la carte ici, en chevauchant exactement <b>1 carré</b> de la carte initiale.",
+  "tuto.confirm": "La carte est posée en attente de validation. Avant de valider, vous pouvez la <b>faire pivoter</b> avec les boutons qui apparaissent sur les cotés de la carte. Pour ce tutoriel, laissez-la en place et cliquez sur <b>Valider</b> !",
+  "tuto.objective-realized": "Regardez la table ! La <b>diagonale magenta</b> est apparue : votre objectif est réalisé ! Cliquez sur la carte objectif pour scorer.",
+  "tuto.new-objective": "Bravo ! Vous marquez des points et piochez automatiquement une nouvelle <b>carte Objectif</b> pour toujours en avoir 3 en main.",
+  "tuto.end": "Vous maîtrisez les règles de Quadri ! Lorsqu'un joueur pioche la dernière carte Objectif, chaque joueur joue <b>une dernière fois</b>. Si la pioche de cartes Quadri est épuisée, la partie s'achève <b>immédiatement</b>. Le joueur avec le plus de points gagne — en cas d'égalité, celui qui a réalisé le plus d'objectifs l'emporte. À vous de jouer !"
 }
