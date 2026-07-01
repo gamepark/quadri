@@ -11,6 +11,7 @@ import { Locators } from './locators/Locators'
 import { Material } from './material/Material'
 import { theme } from './theme'
 import { Tutorial } from './tutorial/Tutorial'
+import { ai } from './tutorial/TutorialAI'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -25,6 +26,7 @@ createRoot(document.getElementById('root')!).render(
       logs={new QuadriLogs()}
       theme={theme}
       tutorial={new Tutorial()}
+      ai={ai}
     >
       <App />
     </GameProvider>
