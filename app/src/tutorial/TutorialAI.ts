@@ -53,7 +53,8 @@ function scorePosition(
   rotation: number,
   tableCards: MaterialItem[],
   mine: ObjectiveCard[],
-  theirs: ObjectiveCard[]
+  theirs: ObjectiveCard[],
+  randomize = true
 ): number {
   const simulated = { id: cardId, location: { type: LocationType.Table, x, y, rotation, z: tableCards.length } }
   const colorMap = buildColorMap([...tableCards, simulated as unknown as MaterialItem])
@@ -65,7 +66,7 @@ function scorePosition(
   for (const id of theirs) {
     if (isObjectiveRealized(objectivePatterns[id], colorMap)) score -= objectiveValues[id] * 5
   }
-  return score + Math.random() * 0.5
+  return score + (randomize ? Math.random() * 0.5 : 0)
 }
 
 function bestPlacementMove(
@@ -128,7 +129,7 @@ function bestRotateOrConfirm(
   let bestRot = currentRot
   let bestScore = -Infinity
   for (let r = 0; r < 4; r++) {
-    const s = scorePosition(cardId, x, y, r, tableCards, mine, theirs)
+    const s = scorePosition(cardId, x, y, r, tableCards, mine, theirs, false)
     if (s > bestScore) { bestScore = s; bestRot = r }
   }
 
