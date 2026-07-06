@@ -1,6 +1,6 @@
 import { getEnumValues, MaterialGameSetup } from '@gamepark/rules-api'
 import { shuffle } from 'es-toolkit/compat'
-import { QuadriOptions } from './QuadriOptions'
+import { CoopDifficulty, GameMode, QuadriOptions } from './QuadriOptions'
 import { QuadriRules } from './QuadriRules'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
@@ -14,19 +14,21 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
   Rules = QuadriRules
 
   setupMaterial(options: QuadriOptions) {
-    if (options.cooperative || options.advancedCooperative) this.memorize(Memory.Cooperative, true)
-    if (options.balltrap) this.memorize(Memory.BallTrap, true)
-
-    if (options.cooperative || options.advancedCooperative) {
-      this.setupCoopQuadriDeck()
-      this.setupCoopObjectives(options.advancedCooperative)
-    } else if (options.balltrap) {
-      this.setupQuadriDeck()
-      this.dealBallTrapObjectivesToPlayers()
-    } else {
-      this.setupQuadriDeck()
-      this.setupObjectiveDeck(options)
-      this.dealObjectivesToPlayers()
+    switch (options.mode) {
+      case GameMode.Cooperative:
+        this.memorize(Memory.Cooperative, true)
+        this.setupCoopQuadriDeck()
+        this.setupCoopObjectives(options.coopDifficulty)
+        break
+      case GameMode.BallTrap:
+        this.memorize(Memory.BallTrap, true)
+        this.setupQuadriDeck()
+        this.dealBallTrapObjectivesToPlayers()
+        break
+      default:
+        this.setupQuadriDeck()
+        this.setupObjectiveDeck(options.discovery)
+        this.dealObjectivesToPlayers()
     }
     this.placeInitialCard()
   }
@@ -48,24 +50,19 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
     this.material(MaterialType.QuadriCard).shuffle()
   }
 
-  setupCoopObjectives(isAdvanced: boolean) {
-    const allObjectives = getEnumValues(ObjectiveCard)
-    const eligible = isAdvanced
-      ? allObjectives.filter(id => objectiveValues[id] > 3)
-      : allObjectives
-      .filter(id => objectiveValues[id] === 4 || objectiveValues[id] === 5)
+  setupCoopObjectives(difficulty: CoopDifficulty) {
+    // Easy: values 4 & 5 — Medium: + value 6 — Hard: + value 8.
+    const maxValue = difficulty === CoopDifficulty.Hard ? 8 : difficulty === CoopDifficulty.Medium ? 6 : 5
+    const eligible = getEnumValues(ObjectiveCard).filter(id => objectiveValues[id] >= 4 && objectiveValues[id] <= maxValue)
     this.material(MaterialType.ObjectiveCard).createItems(
       shuffle(eligible).slice(0, 10).map(id => ({ id, location: { type: LocationType.CoopObjective } }))
     )
   }
 
-  setupObjectiveDeck(options: QuadriOptions) {
+  setupObjectiveDeck(discovery: boolean) {
     const allObjectives = getEnumValues(ObjectiveCard)
-    const pool = options.discoveryMode
-      ? allObjectives.filter(id => objectiveValues[id] < 8)
-      : options.advancedMode
-      ? allObjectives.filter(id => objectiveValues[id] > 3)
-      : allObjectives
+    // Discovery mode removes the value-8 objectives (rulebook tip for new players).
+    const pool = discovery ? allObjectives.filter(id => objectiveValues[id] < 8) : allObjectives
     const objectives = shuffle(pool).slice(0, 30).map(id => ({
       id,
       location: { type: LocationType.ObjectiveDeck }
