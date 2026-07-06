@@ -22,9 +22,7 @@
   "header.place-card.other": "{player} place une carte Quadri",
   "header.rotate-confirm.mine": "Faites pivoter la carte ou <confirm>Validez</confirm>",
   "header.rotate-confirm.other": "{player} fait pivoter ou valide sa carte",
-  "header.check-objectives.mine": "Cliquez sur un objectif réalisé pour le scorer, ou <pass>Passer</pass>",
-  "header.check-objectives.pass-only": "Aucun objectif à scorer — <pass>Passer</pass>",
-  "header.check-objectives.other": "Les joueurs vérifient leurs objectifs",
+  "header.check-objectives": "Vérification des objectifs...",
   "header.coop-check": "Vérification des objectifs communs...",
   "header.balltrap-check.mine": "Cliquez sur l'objectif réalisé d'un adversaire pour l'éliminer",
   "header.balltrap-check.other": "Les joueurs vérifient les objectifs adverses",
@@ -68,7 +66,7 @@
   "tuto.objectives": "Voici vos 3 <b>cartes Objectif</b>. Chacune montre un motif à reproduire sur la table. Réalisez-le pour marquer les points indiqués — même en jeu adverse !",
   "tuto.place-card": "Posez la carte ici, en chevauchant exactement <b>1 carré</b> de la carte initiale.",
   "tuto.confirm": "La carte est posée en attente de validation. Avant de valider, vous pouvez la <b>faire pivoter</b> avec les boutons qui apparaissent sur les cotés de la carte. Pour ce tutoriel, laissez-la en place et cliquez sur <b>Valider</b> !",
-  "tuto.objective-realized": "Regardez la table ! La <b>diagonale magenta</b> est apparue : votre objectif est réalisé ! Cliquez sur la carte objectif pour scorer.",
+  "tuto.objective-realized": "Regardez la table ! La <b>diagonale magenta</b> est apparue : votre objectif est <b>automatiquement réalisé et scoré</b>.",
   "tuto.new-objective": "Bravo ! Vous marquez des points et piochez automatiquement une nouvelle <b>carte Objectif</b> pour toujours en avoir 3 en main.",
   "tuto.end": "Vous maîtrisez les règles de Quadri ! Lorsqu'un joueur pioche la dernière carte Objectif, chaque joueur joue <b>une dernière fois</b>. Si la pioche de cartes Quadri est épuisée, la partie s'achève <b>immédiatement</b>. Le joueur avec le plus de points gagne — en cas d'égalité, celui qui a réalisé le plus d'objectifs l'emporte. À vous de jouer !"
 }

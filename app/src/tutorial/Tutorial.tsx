@@ -10,7 +10,7 @@ const me = 1
 const opponent = 2
 
 export class Tutorial extends MaterialTutorial<number, MaterialType, LocationType> {
-  version = 1
+  version = 2
   options = {}
   setup = new TutorialSetup()
 
@@ -137,7 +137,7 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
       },
     },
 
-    // Étape 9 : Antoine valide — CheckObjectives démarre automatiquement après
+    // Étape 9 : Antoine valide — CheckObjectives score automatiquement les objectifs réalisés
     {
       move: {
         player: opponent,
@@ -145,20 +145,15 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
       },
     },
 
-    // Étape 10 : Popup avant scoring — Antoine auto-passe, joueur 1 est actif dans CheckObjectives
+    // Étape 10 : Popup — la diagonale magenta est réalisée et scorée automatiquement
     {
       popup: {
         text: () => <Trans i18nKey="tuto.objective-realized" components={{ b: <strong /> }} />,
         position: { y: -20 },
       },
-      move: {
-        filter: (move) =>
-          isMoveItemType(MaterialType.ObjectiveCard)(move) &&
-          move.location.type === LocationType.ScoredObjectives,
-      },
     },
 
-    // Étape 11 : Popup après avoir scoré — expliquer la repigche
+    // Étape 11 : Popup après avoir scoré — expliquer la repioche
     {
       popup: {
         text: () => <Trans i18nKey="tuto.new-objective" components={{ b: <strong /> }} />,

@@ -1,16 +1,8 @@
-import { QuadriRules } from '@gamepark/quadri/QuadriRules'
-import { usePlayerId, useRules } from '@gamepark/react-game'
 import { useTranslation } from 'react-i18next'
 
+// CheckObjectives is an automatic rule (realised objectives are scored automatically),
+// so this header is only shown briefly, if at all, while it resolves.
 export const CheckObjectivesHeader = () => {
   const { t } = useTranslation()
-  const rules = useRules<QuadriRules>()
-  const me = usePlayerId()
-  const activePlayers: number[] = rules?.game.rule?.players ?? []
-  const isActive = me !== undefined && activePlayers.includes(me)
-
-  if (isActive) {
-    return <>{t('header.check-objectives.mine')}</>
-  }
-  return <>{t('header.check-objectives.other')}</>
+  return <>{t('header.check-objectives')}</>
 }

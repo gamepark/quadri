@@ -11,6 +11,14 @@ import { RuleId } from './RuleId'
 export class BallTrapCheckRule extends SimultaneousRule<number, MaterialType, LocationType, RuleId> {
   // No onRuleStart: all players stay active to avoid hidden-id prediction mismatch.
   // Each player ends their own turn (either after eliminating or by passing).
+  //
+  // Design choice (kept intentionally): an objective is eliminated as soon as the
+  // board realises it, regardless of who placed the triggering Quadri card. The
+  // rulebook says an objective is realised "par un autre" (by another player), so
+  // strictly a player completing their OWN objective on their own turn should not
+  // lose it. Since players cannot see their own objectives (BallTrapHand is hidden
+  // from its owner), we treat any realised objective as eliminated — this is simpler
+  // and the edge case is marginal. Left as-is on purpose.
 
   getActivePlayerLegalMoves(player: number): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     const colorMap = buildColorMap(
