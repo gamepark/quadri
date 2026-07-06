@@ -1,4 +1,4 @@
-import { isMoveItem, ItemMove, MaterialMove, SimultaneousRule } from '@gamepark/rules-api'
+import { MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
 import { ObjectiveCard } from '../material/ObjectiveCard'
 import { objectivePatterns } from '../material/ObjectiveCardPattern'
 import { LocationType } from '../material/LocationType'
@@ -8,61 +8,52 @@ import { Memory } from './Memory'
 import { isObjectiveRealized } from './objectiveCheck'
 import { RuleId } from './RuleId'
 
-export class BallTrapCheckRule extends SimultaneousRule<number, MaterialType, LocationType, RuleId> {
-  // No onRuleStart: all players stay active to avoid hidden-id prediction mismatch.
-  // Each player ends their own turn (either after eliminating or by passing).
-  //
-  // Design choice (kept intentionally): an objective is eliminated as soon as the
-  // board realises it, regardless of who placed the triggering Quadri card. The
-  // rulebook says an objective is realised "par un autre" (by another player), so
-  // strictly a player completing their OWN objective on their own turn should not
-  // lose it. Since players cannot see their own objectives (BallTrapHand is hidden
-  // from its owner), we treat any realised objective as eliminated — this is simpler
-  // and the edge case is marginal. Left as-is on purpose.
+/**
+ * Automatic rule: after each Quadri card is placed, every objective realised on the
+ * board is eliminated (moved out of its owner's hand). No player interaction.
+ *
+ * Design choice (kept intentionally): an objective is eliminated as soon as the board
+ * realises it, regardless of who placed the triggering card. The rulebook says an
+ * objective is realised "par un autre" (by another player), so strictly a player
+ * completing their OWN objective on their own turn should not lose it. Since players
+ * cannot see their own objectives (BallTrapHand is hidden from its owner), we treat any
+ * realised objective as eliminated — simpler, and the edge case is marginal.
+ *
+ * Because eliminations read objective ids that are hidden from their owner, the
+ * transition into this rule is marked unpredictable (see QuadriRules.isUnpredictableMove).
+ */
+export class BallTrapCheckRule extends MaterialRulesPart<number, MaterialType, LocationType, RuleId> {
+  onRuleStart(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
+    const colorMap = buildColorMap(this.material(MaterialType.QuadriCard).location(LocationType.Table).getItems())
+    // Credit the elimination to the player who just placed (the one before NextPlayer).
+    const eliminator = this.placer
 
-  getActivePlayerLegalMoves(player: number): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
-    const colorMap = buildColorMap(
-      this.material(MaterialType.QuadriCard).location(LocationType.Table).getItems()
-    )
-    const moves: MaterialMove<number, MaterialType, LocationType, RuleId>[] = []
-    for (const opponent of this.game.players.filter(p => p !== player)) {
-      const hand = this.material(MaterialType.ObjectiveCard).location(LocationType.BallTrapHand).player(opponent)
+    const eliminateMoves: MaterialMove<number, MaterialType, LocationType, RuleId>[] = []
+    for (const player of this.game.players) {
+      const hand = this.material(MaterialType.ObjectiveCard).location(LocationType.BallTrapHand).player(player)
       for (const item of hand.getItems()) {
         if (isObjectiveRealized(objectivePatterns[item.id as ObjectiveCard], colorMap)) {
-          moves.push(hand.id(item.id).moveItem({ type: LocationType.BallTrapEliminatedObjectives, player }))
+          eliminateMoves.push(hand.id(item.id).moveItem({ type: LocationType.BallTrapEliminatedObjectives, player: eliminator }))
         }
       }
     }
-    if (moves.length === 0) {
-      return [this.endPlayerTurn(player)]
+
+    // Re-enter the rule after applying the eliminations so the end/next-turn decision
+    // is taken on the updated hands (no objectives are drawn, so a single pass suffices).
+    if (eliminateMoves.length > 0) {
+      return [...eliminateMoves, this.startRule(RuleId.BallTrapCheckObjectives)]
     }
-    return moves
+
+    return this.endOrNextTurn()
   }
 
-  afterItemMove(move: ItemMove<number, MaterialType, LocationType>): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
-    if (!isMoveItem(move) || move.itemType !== MaterialType.ObjectiveCard) return []
-    if (move.location.type !== LocationType.BallTrapEliminatedObjectives) return []
-
-    const actingPlayer = move.location.player!
-    const colorMap = buildColorMap(
-      this.material(MaterialType.QuadriCard).location(LocationType.Table).getItems()
-    )
-    const canEliminate = this.game.players
-      .filter(p => p !== actingPlayer)
-      .some(opponent =>
-        this.material(MaterialType.ObjectiveCard)
-          .location(LocationType.BallTrapHand).player(opponent)
-          .getItems()
-          .some(item => isObjectiveRealized(objectivePatterns[item.id as ObjectiveCard], colorMap))
-      )
-
-    if (!canEliminate) {
-      return [this.endPlayerTurn(actingPlayer)]
-    }
-    return []
+  private get placer(): number {
+    const players = this.game.players
+    const nextPlayer = this.remind<number>(Memory.NextPlayer)
+    return players[(players.indexOf(nextPlayer) - 1 + players.length) % players.length]
   }
 
-  getMovesAfterPlayersDone(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
+  private endOrNextTurn(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     const playersWithObjectives = this.game.players.filter(p =>
       this.material(MaterialType.ObjectiveCard).location(LocationType.BallTrapHand).player(p).length > 0
     )

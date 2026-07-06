@@ -86,7 +86,7 @@ Comparaison entre le livret de règles PDF (`app/public/rules-fr.pdf`) et le cod
 | Règles | Code | Statut |
 |--------|------|--------|
 | Tours normaux comme en compétitif | `PlaceQuadriCard` → `RotateAndConfirm` → `BallTrapCheckObjectives` | ✅ |
-| Dès qu'un objectif est réalisé par un autre, on le dépose | `BallTrapCheckRule` : chaque joueur peut cliquer sur les objectifs adverses réalisés | ✅ |
+| Dès qu'un objectif est réalisé par un autre, on le dépose | `BallTrapCheckRule` (règle **automatique** `MaterialRulesPart`) : tout objectif réalisé sur la table est éliminé automatiquement, crédité au poseur. Transition marquée `unpredictable` (ids cachés au propriétaire) — voir `QuadriRules.isUnpredictableMove` | ✅ |
 | Un joueur sans objectif **continue à jouer** | `Memory.NextPlayer` avance normalement ; les joueurs éliminés gardent leurs tours | ✅ |
 
 ### Fin de partie

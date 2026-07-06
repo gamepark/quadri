@@ -1,4 +1,4 @@
-import { CompetitiveScore, hideItemId, hideItemIdToOthers, MaterialGame, MaterialItem, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { CompetitiveScore, hideItemId, hideItemIdToOthers, isStartRule, MaterialGame, MaterialItem, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { BallTrapCheckRule } from './rules/BallTrapCheckRule'
@@ -89,5 +89,16 @@ export class QuadriRules
     if (this.remind(Memory.Cooperative) || this.remind(Memory.BallTrap)) return undefined
     if (tieBreaker === 1) return new ScoreHelper(this.game).getObjectiveCount(playerId)
     return undefined
+  }
+
+  isUnpredictableMove(move: MaterialMove<number, MaterialType, LocationType>, player: number): boolean {
+    // Entering an objective-check rule triggers automatic scoring/elimination that depends
+    // on objective ids hidden from this player (opponents' hands in competitive, one's own
+    // hand in ball-trap). The client cannot predict the outcome, so it must wait for the
+    // server. Coop objectives are public, so CoopCheckObjectives stays predictable.
+    if (isStartRule(move) && (move.id === RuleId.CheckObjectives || move.id === RuleId.BallTrapCheckObjectives)) {
+      return true
+    }
+    return super.isUnpredictableMove(move, player)
   }
 }
