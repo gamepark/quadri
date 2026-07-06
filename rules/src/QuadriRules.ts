@@ -78,8 +78,9 @@ export class QuadriRules
       return this.remind<boolean>(Memory.CoopWon) ? 1 : 0
     }
     if (this.remind(Memory.BallTrap)) {
+      // 1 point per objective still in hand (the last survivor scores the most).
       return this.material(MaterialType.ObjectiveCard)
-        .location(LocationType.BallTrapHand).player(playerId).length > 0 ? 1 : 0
+        .location(LocationType.BallTrapHand).player(playerId).length
     }
     return new ScoreHelper(this.game).getScore(playerId)
   }
