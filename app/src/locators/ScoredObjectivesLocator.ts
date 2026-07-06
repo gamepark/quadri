@@ -1,5 +1,6 @@
+import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialContext, DeckLocator } from '@gamepark/react-game'
-import { Location, LocationType } from '@gamepark/rules-api'
+import { Location } from '@gamepark/rules-api'
 import { getEdgeOrigin, toEdgeCoords } from './edgeOrigin'
 import { playerHandLocator } from './PlayerHandLocator'
 
