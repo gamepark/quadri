@@ -1,4 +1,4 @@
-import { MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
+import { MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { ObjectiveCard } from '../material/ObjectiveCard'
 import { objectivePatterns } from '../material/ObjectiveCardPattern'
 import { LocationType } from '../material/LocationType'
@@ -8,7 +8,7 @@ import { Memory } from './Memory'
 import { isObjectiveRealized } from './objectiveCheck'
 import { RuleId } from './RuleId'
 
-export class CoopCheckObjectivesRule extends MaterialRulesPart<number, MaterialType, LocationType, RuleId> {
+export class CoopCheckObjectivesRule extends PlayerTurnRule<number, MaterialType, LocationType, RuleId> {
   onRuleStart(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     const colorMap = buildColorMap(
       this.material(MaterialType.QuadriCard).location(LocationType.Table).getItems()
@@ -25,6 +25,6 @@ export class CoopCheckObjectivesRule extends MaterialRulesPart<number, MaterialT
       this.memorize(Memory.CoopWon, true)
       return [...moves, this.endGame()]
     }
-    return [...moves, this.startPlayerTurn(RuleId.PlaceQuadriCard, this.remind<number>(Memory.NextPlayer))]
+    return [...moves, this.startPlayerTurn(RuleId.PlaceQuadriCard, this.nextPlayer)]
   }
 }

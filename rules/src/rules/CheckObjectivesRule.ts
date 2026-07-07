@@ -1,4 +1,4 @@
-import { isMoveItem, ItemMove, MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
+import { isMoveItem, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { ObjectiveCard } from '../material/ObjectiveCard'
 import { objectivePatterns } from '../material/ObjectiveCardPattern'
 import { LocationType } from '../material/LocationType'
@@ -15,7 +15,7 @@ import { RuleId } from './RuleId'
  * may already be realised) until nothing more can be scored, then the turn passes
  * to the next player (or the game ends).
  */
-export class CheckObjectivesRule extends MaterialRulesPart<number, MaterialType, LocationType, RuleId> {
+export class CheckObjectivesRule extends PlayerTurnRule<number, MaterialType, LocationType, RuleId> {
   onRuleStart(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     const colorMap = buildColorMap(this.material(MaterialType.QuadriCard).location(LocationType.Table).getItems())
     const scoreMoves: MaterialMove<number, MaterialType, LocationType, RuleId>[] = []
@@ -51,7 +51,7 @@ export class CheckObjectivesRule extends MaterialRulesPart<number, MaterialType,
 
   private endOrNextTurn(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     const lastPlayer = this.remind<number | undefined>(Memory.LastPlayer)
-    const nextPlayer = this.remind<number>(Memory.NextPlayer)
+    const nextPlayer = this.nextPlayer
 
     if (lastPlayer !== undefined && nextPlayer === lastPlayer) {
       return [this.endGame()]

@@ -1,10 +1,9 @@
-import { MaterialMove, MaterialRulesPart } from '@gamepark/rules-api'
+import { MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
 import { ObjectiveCard } from '../material/ObjectiveCard'
 import { objectivePatterns } from '../material/ObjectiveCardPattern'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { buildColorMap } from './colorMap'
-import { Memory } from './Memory'
 import { isObjectiveRealized } from './objectiveCheck'
 import { RuleId } from './RuleId'
 
@@ -22,11 +21,11 @@ import { RuleId } from './RuleId'
  * Because eliminations read objective ids that are hidden from their owner, the
  * transition into this rule is marked unpredictable (see QuadriRules.isUnpredictableMove).
  */
-export class BallTrapCheckRule extends MaterialRulesPart<number, MaterialType, LocationType, RuleId> {
+export class BallTrapCheckRule extends PlayerTurnRule<number, MaterialType, LocationType, RuleId> {
   onRuleStart(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     const colorMap = buildColorMap(this.material(MaterialType.QuadriCard).location(LocationType.Table).getItems())
-    // Credit the elimination to the player who just placed (the one before NextPlayer).
-    const eliminator = this.placer
+    // Credit the elimination to the player who just placed (the current player, kept via startRule).
+    const eliminator = this.player
 
     const eliminateMoves: MaterialMove<number, MaterialType, LocationType, RuleId>[] = []
     for (const player of this.game.players) {
@@ -47,17 +46,11 @@ export class BallTrapCheckRule extends MaterialRulesPart<number, MaterialType, L
     return this.endOrNextTurn()
   }
 
-  private get placer(): number {
-    const players = this.game.players
-    const nextPlayer = this.remind<number>(Memory.NextPlayer)
-    return players[(players.indexOf(nextPlayer) - 1 + players.length) % players.length]
-  }
-
   private endOrNextTurn(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     const playersWithObjectives = this.game.players.filter(p =>
       this.material(MaterialType.ObjectiveCard).location(LocationType.BallTrapHand).player(p).length > 0
     )
     if (playersWithObjectives.length <= 1) return [this.endGame()]
-    return [this.startPlayerTurn(RuleId.PlaceQuadriCard, this.remind<number>(Memory.NextPlayer))]
+    return [this.startPlayerTurn(RuleId.PlaceQuadriCard, this.nextPlayer)]
   }
 }
