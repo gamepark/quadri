@@ -49,7 +49,7 @@ export class QuadriRules
     [MaterialType.ObjectiveCard]: {
       [LocationType.ObjectiveDeck]: new PositiveSequenceStrategy(),
       [LocationType.PlayerHand]: new PositiveSequenceStrategy(),
-      [LocationType.CoopObjective]: new PositiveSequenceStrategy('x'),
+      [LocationType.CoopObjective]: new PositiveSequenceStrategy(),
       [LocationType.BallTrapHand]: new PositiveSequenceStrategy(),
       [LocationType.BallTrapEliminatedObjectives]: new PositiveSequenceStrategy(),
       [LocationType.CoopRealisedObjectives]: new PositiveSequenceStrategy(),
@@ -77,7 +77,11 @@ export class QuadriRules
 
   getScore(playerId: number): number {
     if (this.isCooperative()) {
-      return this.hasWonCoop() ? 1 : 0
+      // Failure scores 0. Otherwise: difficulty × 10 + Quadri cards left in the deck.
+      if (!this.hasWonCoop()) return 0
+      const difficulty = this.remind<number>(Memory.CoopDifficulty)
+      const cardsLeft = this.material(MaterialType.QuadriCard).location(LocationType.QuadriDeck).length
+      return difficulty * 10 + cardsLeft
     }
     if (this.isBallTrap()) {
       // 1 point per objective still in hand (the last survivor scores the most).

@@ -17,6 +17,7 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
     this.memorize(Memory.Mode, options.mode)
     switch (options.mode) {
       case GameMode.Cooperative:
+        this.memorize(Memory.CoopDifficulty, options.coopDifficulty)
         this.setupCoopQuadriDeck()
         this.setupCoopObjectives(options.coopDifficulty)
         break
