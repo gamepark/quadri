@@ -1,4 +1,5 @@
 import { isMoveItem, ItemMove, MaterialMove, PlayerTurnRule } from '@gamepark/rules-api'
+import { GameMode } from '../QuadriOptions'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { Memory } from './Memory'
@@ -9,7 +10,7 @@ export class PlaceQuadriCardRule extends PlayerTurnRule<number, MaterialType, Lo
   onRuleStart(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     const deck = this.material(MaterialType.QuadriCard).location(LocationType.QuadriDeck)
     if (deck.length === 0) {
-      if (this.remind(Memory.Cooperative)) this.memorize(Memory.CoopWon, false)
+      if (this.remind(Memory.Mode) === GameMode.Cooperative) this.memorize(Memory.CoopWon, false)
       return [this.endGame()]
     }
     return [deck.deck().moveItem({ type: LocationType.QuadriReveal })]

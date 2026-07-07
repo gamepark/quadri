@@ -14,14 +14,13 @@ export class QuadriSetup extends MaterialGameSetup<number, MaterialType, Locatio
   Rules = QuadriRules
 
   setupMaterial(options: QuadriOptions) {
+    this.memorize(Memory.Mode, options.mode)
     switch (options.mode) {
       case GameMode.Cooperative:
-        this.memorize(Memory.Cooperative, true)
         this.setupCoopQuadriDeck()
         this.setupCoopObjectives(options.coopDifficulty)
         break
       case GameMode.BallTrap:
-        this.memorize(Memory.BallTrap, true)
         this.setupQuadriDeck()
         this.dealBallTrapObjectivesToPlayers()
         break

@@ -1,4 +1,5 @@
 import { CompetitiveScore, hideItemId, hideItemIdToOthers, isStartRule, MaterialGame, MaterialItem, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { GameMode } from './QuadriOptions'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
 import { BallTrapCheckRule } from './rules/BallTrapCheckRule'
@@ -61,23 +62,23 @@ export class QuadriRules
   }
 
   isCooperative(): boolean {
-    return !!this.remind(Memory.Cooperative)
+    return this.remind(Memory.Mode) === GameMode.Cooperative
   }
 
   isBallTrap(): boolean {
-    return !!this.remind(Memory.BallTrap)
+    return this.remind(Memory.Mode) === GameMode.BallTrap
   }
 
   hasWonCoop(): boolean | undefined {
-    if (!this.remind(Memory.Cooperative)) return undefined
+    if (!this.isCooperative()) return undefined
     return this.remind<boolean | undefined>(Memory.CoopWon)
   }
 
   getScore(playerId: number): number {
-    if (this.remind(Memory.Cooperative)) {
+    if (this.isCooperative()) {
       return this.remind<boolean>(Memory.CoopWon) ? 1 : 0
     }
-    if (this.remind(Memory.BallTrap)) {
+    if (this.isBallTrap()) {
       // 1 point per objective still in hand (the last survivor scores the most).
       return this.material(MaterialType.ObjectiveCard)
         .location(LocationType.BallTrapHand).player(playerId).length
@@ -86,7 +87,7 @@ export class QuadriRules
   }
 
   getTieBreaker(tieBreaker: number, playerId: number): number | undefined {
-    if (this.remind(Memory.Cooperative) || this.remind(Memory.BallTrap)) return undefined
+    if (this.isCooperative() || this.isBallTrap()) return undefined
     if (tieBreaker === 1) return new ScoreHelper(this.game).getObjectiveCount(playerId)
     return undefined
   }
