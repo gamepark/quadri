@@ -57,8 +57,8 @@ export const QuadriOptionsSpec: OptionsSpec<QuadriOptions> = {
     if (options.mode !== GameMode.Cooperative && players > 4) {
       throw new OptionsValidationError(t('more.than.4.players.require.coop'), ['players'])
     }
-    if (options.mode === GameMode.BallTrap && players < 2) {
-      throw new OptionsValidationError(t('balltrap.require.2.players'), ['players'])
+    if (options.mode !== GameMode.Cooperative && players < 2) {
+      throw new OptionsValidationError(t('less.than.2.players.require.coop'), ['players'])
     }
   }
 }
