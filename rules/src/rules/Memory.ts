@@ -1,4 +1,4 @@
 export enum Memory {
-  LastPlayer = 'LastPlayer',
-  Mode = 'Mode'
+  Mode = 1,
+  LastPlayer = 2
 }
