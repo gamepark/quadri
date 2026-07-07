@@ -71,12 +71,13 @@ export class QuadriRules
 
   hasWonCoop(): boolean | undefined {
     if (!this.isCooperative()) return undefined
-    return this.remind<boolean | undefined>(Memory.CoopWon)
+    // Won iff every cooperative objective has been realised (none left to turn over).
+    return this.material(MaterialType.ObjectiveCard).location(LocationType.CoopObjective).length === 0
   }
 
   getScore(playerId: number): number {
     if (this.isCooperative()) {
-      return this.remind<boolean>(Memory.CoopWon) ? 1 : 0
+      return this.hasWonCoop() ? 1 : 0
     }
     if (this.isBallTrap()) {
       // 1 point per objective still in hand (the last survivor scores the most).

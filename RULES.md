@@ -66,8 +66,9 @@ Comparaison entre le livret de règles PDF (`app/public/rules-fr.pdf`) et le cod
 
 | Règles | Code | Statut |
 |--------|------|--------|
-| Victoire : tous les objectifs retournés avant pioche épuisée | `willRemain === 0` → `memorize(CoopWon, true)` + `endGame()` | ✅ |
-| Défaite : pioche Quadri épuisée | `PlaceQuadriCardRule.onRuleStart` → pioche vide → `memorize(CoopWon, false)` + `endGame()` | ✅ |
+| Victoire : tous les objectifs retournés avant pioche épuisée | `CoopCheckObjectivesRule` : `willRemain === 0` → `endGame()`. La dernière carte Quadri piochée peut réaliser le dernier objectif : la victoire est vérifiée après la pose, avant que la pioche vide ne compte comme défaite. | ✅ |
+| Défaite : pioche Quadri épuisée | `PlaceQuadriCardRule.onRuleStart` → pioche vide → `endGame()` | ✅ |
+| Victoire/défaite recalculée à la volée | `hasWonCoop()` = `location(CoopObjective).length === 0` (aucune valeur mémorisée) | ✅ |
 
 ---
 

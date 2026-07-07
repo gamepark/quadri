@@ -4,7 +4,6 @@ import { objectivePatterns } from '../material/ObjectiveCardPattern'
 import { LocationType } from '../material/LocationType'
 import { MaterialType } from '../material/MaterialType'
 import { buildColorMap } from './colorMap'
-import { Memory } from './Memory'
 import { isObjectiveRealized } from './objectiveCheck'
 import { RuleId } from './RuleId'
 
@@ -22,7 +21,6 @@ export class CoopCheckObjectivesRule extends PlayerTurnRule<number, MaterialType
     }
     const willRemain = remaining.length - moves.length
     if (willRemain === 0) {
-      this.memorize(Memory.CoopWon, true)
       return [...moves, this.endGame()]
     }
     return [...moves, this.startPlayerTurn(RuleId.PlaceQuadriCard, this.nextPlayer)]
