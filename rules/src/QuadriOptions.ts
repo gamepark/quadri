@@ -1,10 +1,5 @@
 import { OptionsSpec, OptionsValidationError } from '@gamepark/rules-api'
 
-/**
- * This is the options for each player in the game.
- */
-type PlayerOptions = { id: number }
-
 /** The three ways to play Quadri. */
 export enum GameMode {
   Competitive = 1,
@@ -20,7 +15,7 @@ export enum CoopDifficulty {
 }
 
 export type QuadriOptions = {
-  players: PlayerOptions[]
+  players: number
   mode: GameMode
   /** Competitive only: remove value-8 objectives when discovering the game. */
   discovery: boolean
@@ -29,13 +24,6 @@ export type QuadriOptions = {
 }
 
 export const QuadriOptionsSpec: OptionsSpec<QuadriOptions> = {
-  players: {
-    id: {
-      label: (t) => t('player.id'),
-      values: [1, 2, 3, 4, 5, 6],
-      valueSpec: (id) => ({ label: (t) => t(`player.${id}`) })
-    }
-  },
   mode: {
     label: (t) => t('option.mode'),
     help: (t) => t('option.mode.help'),
@@ -65,7 +53,7 @@ export const QuadriOptionsSpec: OptionsSpec<QuadriOptions> = {
   },
   competitivePlayers: { min: 2, max: 6 },
   validate: (options, t) => {
-    const players = options.players?.length ?? 0
+    const players = options.players ?? 1
     if (options.mode !== GameMode.Cooperative && players > 4) {
       throw new OptionsValidationError(t('more.than.4.players.require.coop'), ['players'])
     }
