@@ -5,7 +5,6 @@ export enum LocationType {
   PlayerHand,
   ScoredObjectives,
   QuadriReveal,
-  QuadriPending,
   CoopObjective,
   BallTrapHand,
   BallTrapEliminatedObjectives,

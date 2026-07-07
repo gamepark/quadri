@@ -1,4 +1,5 @@
-import { CompetitiveScore, hideItemId, hideItemIdToOthers, isStartRule, MaterialGame, MaterialItem, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { CompetitiveScore, hideItemId, hideItemIdToOthers, isMoveItemType, isStartRule, LocalMovePreview, MaterialGame, MaterialItem, MaterialMove, PositiveSequenceStrategy, SecretMaterialRules, TimeLimit } from '@gamepark/rules-api'
+import { isEqual } from 'es-toolkit'
 import { GameMode } from './QuadriOptions'
 import { LocationType } from './material/LocationType'
 import { MaterialType } from './material/MaterialType'
@@ -8,7 +9,6 @@ import { CoopCheckObjectivesRule } from './rules/CoopCheckObjectivesRule'
 import { Memory } from './rules/Memory'
 import { PlaceQuadriCardRule } from './rules/PlaceQuadriCardRule'
 import { RuleId } from './rules/RuleId'
-import { RotateAndConfirmRule } from './rules/RotateAndConfirmRule'
 import { ScoreHelper } from './rules/ScoreHelper'
 
 const hideItemIdFromOwner = (item: MaterialItem<number, LocationType>, player?: number): string[] =>
@@ -18,11 +18,11 @@ export class QuadriRules
   extends SecretMaterialRules<number, MaterialType, LocationType>
   implements
     TimeLimit<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number>,
-    CompetitiveScore<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number>
+    CompetitiveScore<MaterialGame<number, MaterialType, LocationType>, MaterialMove<number, MaterialType, LocationType>, number>,
+    LocalMovePreview<MaterialMove<number, MaterialType, LocationType>>
 {
   rules = {
     [RuleId.PlaceQuadriCard]: PlaceQuadriCardRule,
-    [RuleId.RotateAndConfirm]: RotateAndConfirmRule,
     [RuleId.CheckObjectives]: CheckObjectivesRule,
     [RuleId.CoopCheckObjectives]: CoopCheckObjectivesRule,
     [RuleId.BallTrapCheckObjectives]: BallTrapCheckRule,
@@ -44,7 +44,8 @@ export class QuadriRules
   locationsStrategies = {
     [MaterialType.QuadriCard]: {
       [LocationType.QuadriDeck]: new PositiveSequenceStrategy(),
-      [LocationType.Table]: new PositiveSequenceStrategy('z'),
+      // Table cards keep the explicit z set at placement time (cards may partially overlap),
+      // so a validated placement matches the exact legal move it was previewed from.
     },
     [MaterialType.ObjectiveCard]: {
       [LocationType.ObjectiveDeck]: new PositiveSequenceStrategy(),
@@ -95,6 +96,18 @@ export class QuadriRules
     if (this.isCooperative() || this.isBallTrap()) return undefined
     if (tieBreaker === 1) return new ScoreHelper(this.game).getObjectiveCount(playerId)
     return undefined
+  }
+
+  previewMove(move: MaterialMove<number, MaterialType, LocationType>): boolean {
+    // Placing and rotating a Quadri card on the table stays local (a preview): only the final
+    // validation — a move to the card's already-previewed location — is sent to the server. This
+    // keeps rotations out of the game history.
+    if (isMoveItemType(MaterialType.QuadriCard)(move) && move.location.type === LocationType.Table) {
+      const preview = this.remind<number | undefined>(Memory.QuadriPreview)
+      const current = this.material(MaterialType.QuadriCard).getItem(move.itemIndex)?.location
+      return preview !== move.itemIndex || !isEqual(current, move.location)
+    }
+    return false
   }
 
   isUnpredictableMove(move: MaterialMove<number, MaterialType, LocationType>, player: number): boolean {

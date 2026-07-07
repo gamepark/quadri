@@ -4,11 +4,9 @@ import { BallTrapCheckHeader } from './BallTrapCheckHeader'
 import { CheckObjectivesHeader } from './CheckObjectivesHeader'
 import { CoopCheckObjectivesHeader } from './CoopCheckObjectivesHeader'
 import { PlaceQuadriCardHeader } from './PlaceQuadriCardHeader'
-import { RotateAndConfirmHeader } from './RotateAndConfirmHeader'
 
 export const Headers: Partial<Record<RuleId, ComponentType>> = {
   [RuleId.PlaceQuadriCard]: PlaceQuadriCardHeader,
-  [RuleId.RotateAndConfirm]: RotateAndConfirmHeader,
   [RuleId.CheckObjectives]: CheckObjectivesHeader,
   [RuleId.CoopCheckObjectives]: CoopCheckObjectivesHeader,
   [RuleId.BallTrapCheckObjectives]: BallTrapCheckHeader,

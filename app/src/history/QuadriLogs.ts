@@ -1,8 +1,7 @@
 import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
-import { CustomMoveType } from '@gamepark/quadri/rules/CustomMoveType'
 import { LogDescription, MoveComponentContext, MovePlayedLogDescription } from '@gamepark/react-game'
-import { isCustomMoveType, isMoveItemType, MaterialGame, MaterialMove } from '@gamepark/rules-api'
+import { isMoveItemType, MaterialGame, MaterialMove } from '@gamepark/rules-api'
 import { CoopObjectiveLog } from './CoopObjectiveLog'
 import { EliminateObjectiveLog } from './EliminateObjectiveLog'
 import { PlaceCardLog } from './PlaceCardLog'
@@ -14,7 +13,7 @@ export class QuadriLogs implements LogDescription<MaterialMove, number, Material
     context: MoveComponentContext<MaterialMove, number, MaterialGame>
   ): MovePlayedLogDescription | undefined {
 
-    if (isCustomMoveType(CustomMoveType.ConfirmPlacement)(move)) {
+    if (isMoveItemType(MaterialType.QuadriCard)(move) && move.location.type === LocationType.Table) {
       return { player: context.game.rule?.player, Component: PlaceCardLog }
     }
 

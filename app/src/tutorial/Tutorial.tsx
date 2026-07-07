@@ -1,8 +1,7 @@
 import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
-import { CustomMoveType } from '@gamepark/quadri/rules/CustomMoveType'
 import { MaterialTutorial, TutorialStep } from '@gamepark/react-game'
-import { isCustomMoveType, isMoveItemType, MaterialGame } from '@gamepark/rules-api'
+import { isMoveItemType, MaterialGame } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
 import { TutorialSetup } from './TutorialSetup'
 
@@ -71,7 +70,21 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
       }),
     },
 
-    // Étape 4 : Poser la carte à (1, 1) — dans la continuité de la carte révélée
+    // Étape 4 : Les objectifs — à réaliser en posant les cartes
+    {
+      popup: {
+        text: () => <Trans i18nKey="tuto.objectives" components={{ b: <strong /> }} />,
+        position: { y: -15 },
+      },
+      focus: (game: MaterialGame<number, MaterialType, LocationType>) => ({
+        materials: [
+          this.material(game, MaterialType.ObjectiveCard).location(LocationType.PlayerHand).player(me),
+        ],
+        margin: { left: 3, right: 3, top: 15, bottom: 3 },
+      }),
+    },
+
+    // Étape 5 : Poser la carte à (1, 1), la pivoter puis valider — une seule pose validée
     {
       popup: {
         text: () => <Trans i18nKey="tuto.place-card" components={{ b: <strong /> }} />,
@@ -87,65 +100,26 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
       move: {
         filter: (move) =>
           isMoveItemType(MaterialType.QuadriCard)(move) &&
-          move.location.type === LocationType.QuadriPending &&
+          move.location.type === LocationType.Table &&
           move.location.x === 1 &&
           move.location.y === 1,
       },
     },
 
-    // Étape 5 : Les objectifs — pendant que la carte est en attente de validation
-    {
-      popup: {
-        text: () => <Trans i18nKey="tuto.objectives" components={{ b: <strong /> }} />,
-        position: { y: -15 },
-      },
-      focus: (game: MaterialGame<number, MaterialType, LocationType>) => ({
-        materials: [
-          this.material(game, MaterialType.ObjectiveCard).location(LocationType.PlayerHand).player(me),
-        ],
-        margin: { left: 3, right: 3, top: 15, bottom: 3 },
-      }),
-    },
-
-    // Étape 6 : Valider la pose (rotation présentée dans le texte, sans guider le move de rotation)
-    {
-      popup: {
-        text: () => <Trans i18nKey="tuto.confirm" components={{ b: <strong /> }} />,
-      },
-      focus: (game: MaterialGame<number, MaterialType, LocationType>) => ({
-        materials: [
-          this.material(game, MaterialType.QuadriCard).location(LocationType.Table),
-          this.material(game, MaterialType.QuadriCard).location(LocationType.QuadriReveal),
-          this.material(game, MaterialType.QuadriCard).location(LocationType.QuadriPending),
-        ],
-        margin: { left: 5, right: 5, top: 5, bottom: 5 },
-      }),
-      move: {
-        filter: (move) => isCustomMoveType(CustomMoveType.ConfirmPlacement)(move),
-      },
-    },
-
-    // Étape 8 : Antoine place sa carte à (2, 2)
+    // Étape 6 : Antoine pose et valide sa carte à (2, 2) — CheckObjectives score automatiquement
     {
       move: {
         player: opponent,
         filter: (move) =>
           isMoveItemType(MaterialType.QuadriCard)(move) &&
-          move.location.type === LocationType.QuadriPending &&
+          move.location.type === LocationType.Table &&
           move.location.x === 2 &&
-          move.location.y === 2,
+          move.location.y === 2 &&
+          move.location.rotation === 0,
       },
     },
 
-    // Étape 9 : Antoine valide — CheckObjectives score automatiquement les objectifs réalisés
-    {
-      move: {
-        player: opponent,
-        filter: (move) => isCustomMoveType(CustomMoveType.ConfirmPlacement)(move),
-      },
-    },
-
-    // Étape 10 : Popup — la diagonale magenta est réalisée et scorée automatiquement
+    // Étape 7 : Popup — la diagonale magenta est réalisée et scorée automatiquement
     {
       popup: {
         text: () => <Trans i18nKey="tuto.objective-realized" components={{ b: <strong /> }} />,

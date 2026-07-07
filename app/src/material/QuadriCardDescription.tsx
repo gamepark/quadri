@@ -1,12 +1,12 @@
 import { css } from '@emotion/react'
-import { faRotateLeft, faRotateRight } from '@fortawesome/free-solid-svg-icons'
+import { faCheck, faRotateLeft, faRotateRight, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { QuadriCard } from '@gamepark/quadri/material/QuadriCard'
+import { Memory } from '@gamepark/quadri/rules/Memory'
 import { CardDescription, ItemContext, ItemMenuButton } from '@gamepark/react-game'
-import { QuadriCardHelp } from './help/QuadriCardHelp'
-import { isMoveItemType, MaterialItem, MaterialMove, MoveItem } from '@gamepark/rules-api'
+import { isMoveItemType, Location, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import card1 from '../images/cartes_quadri/cartes_quadri_01.jpg'
 import card2 from '../images/cartes_quadri/cartes_quadri_02.jpg'
 import card3 from '../images/cartes_quadri/cartes_quadri_03.jpg'
@@ -14,6 +14,7 @@ import card4 from '../images/cartes_quadri/cartes_quadri_04.jpg'
 import card5 from '../images/cartes_quadri/cartes_quadri_05.jpg'
 import card6 from '../images/cartes_quadri/cartes_quadri_06.jpg'
 import cardBack from '../images/cartes_quadri/cartes_quadri_dos.jpg'
+import { QuadriCardHelp } from './help/QuadriCardHelp'
 
 class QuadriCardDescription extends CardDescription {
   width = 7
@@ -32,32 +33,72 @@ class QuadriCardDescription extends CardDescription {
 
   backImage = cardBack
 
-  isMenuAlwaysVisible(item: MaterialItem): boolean {
-    return item.location.type === LocationType.QuadriPending
+  // The card being previewed on the table shows its rotate/validate/cancel buttons permanently.
+  private isPreviewedCard(item: MaterialItem, context: ItemContext): boolean {
+    return item.location.type === LocationType.Table
+      && context.rules.remind(Memory.QuadriPreview) === context.index
   }
 
-  getItemMenu(item: MaterialItem, _context: ItemContext, legalMoves: MaterialMove[]) {
-    if (item.location.type !== LocationType.QuadriPending) return undefined
+  // The freshly revealed card, waiting to be placed, can be pre-rotated by the active player.
+  private isRevealedForActivePlayer(item: MaterialItem, context: ItemContext): boolean {
+    return item.location.type === LocationType.QuadriReveal
+      && context.player !== undefined
+      && context.player === context.rules.game.rule?.player
+  }
 
-    const currentRotation = ((item.location.rotation as number) ?? 0)
-    const rotateMoves = legalMoves.filter(isMoveItemType(MaterialType.QuadriCard)) as MoveItem[]
-    const rotateLeft = rotateMoves.find(m => m.location.rotation === (currentRotation + 3) % 4)
-    const rotateRight = rotateMoves.find(m => m.location.rotation === (currentRotation + 1) % 4)
+  isMenuAlwaysVisible(item: MaterialItem, context: ItemContext): boolean {
+    return this.isPreviewedCard(item, context) || this.isRevealedForActivePlayer(item, context)
+  }
 
-    if (!rotateLeft && !rotateRight) return undefined
+  getItemMenu(item: MaterialItem, context: ItemContext) {
+    const card = context.rules.material(MaterialType.QuadriCard).index(context.index)
+    // Rotations are local moves: they only update this player's view, never the game history.
+    const rotateLeft = card.moveItem(it => ({ ...it.location, rotation: (((it.location.rotation ?? 0) as number) + 3) % 4 }))
+    const rotateRight = card.moveItem(it => ({ ...it.location, rotation: (((it.location.rotation ?? 0) as number) + 1) % 4 }))
 
-    return <>
-      {rotateLeft && (
-        <ItemMenuButton move={rotateLeft} x={-4.5} y={0} css={buttonCss}>
-          <FontAwesomeIcon icon={faRotateLeft} />
-        </ItemMenuButton>
-      )}
-      {rotateRight && (
-        <ItemMenuButton move={rotateRight} x={4.5} y={0} css={buttonCss}>
-          <FontAwesomeIcon icon={faRotateRight} />
-        </ItemMenuButton>
-      )}
+    const rotationButtons = <>
+      <ItemMenuButton move={rotateLeft} options={{ local: true }} x={-4.5} y={0} css={buttonCss}>
+        <FontAwesomeIcon icon={faRotateLeft} />
+      </ItemMenuButton>
+      <ItemMenuButton move={rotateRight} options={{ local: true }} x={4.5} y={0} css={buttonCss}>
+        <FontAwesomeIcon icon={faRotateRight} />
+      </ItemMenuButton>
     </>
+
+    // Before placement: only the rotation buttons on the revealed card.
+    if (this.isRevealedForActivePlayer(item, context)) {
+      return rotationButtons
+    }
+
+    if (this.isPreviewedCard(item, context)) {
+      const cancel = card.moveItem(it => ({ type: LocationType.QuadriReveal, rotation: it.location.rotation }))
+      // Validation is a real move to the card's current (previewed) location: the only move sent to the server.
+      const validate = card.moveItem(it => it.location)
+      return <>
+        {rotationButtons}
+        <ItemMenuButton move={cancel} options={{ local: true }} x={0} y={-4.5} css={cancelCss}>
+          <FontAwesomeIcon icon={faXmark} />
+        </ItemMenuButton>
+        <ItemMenuButton move={validate} x={0} y={4.5} css={confirmCss}>
+          <FontAwesomeIcon icon={faCheck} />
+        </ItemMenuButton>
+      </>
+    }
+
+    return undefined
+  }
+
+  getDropLocations(context: ItemContext, dragMoves: MaterialMove[]): Location[] {
+    const preview = context.rules.remind<number | undefined>(Memory.QuadriPreview)
+    if (preview !== undefined) {
+      // Drop the previewed card's own cell from the drop targets: dropping it back in place must not
+      // validate. Only dragging it to another cell repositions it; validation is done via the button.
+      const { x, y } = context.rules.material(MaterialType.QuadriCard).getItem(preview).location
+      dragMoves = dragMoves.filter(move =>
+        !(isMoveItemType(MaterialType.QuadriCard)(move) && move.location.x === x && move.location.y === y)
+      )
+    }
+    return super.getDropLocations(context, dragMoves)
   }
 }
 
@@ -76,6 +117,32 @@ const buttonCss = css`
     background-color: #00C8E0 !important;
     color: #08080F !important;
     box-shadow: 0 0 0.9em rgba(0, 229, 255, 0.55) !important;
+  }
+`
+
+const confirmCss = css`
+  ${buttonCss};
+  color: #34d058 !important;
+  border-color: #34d058 !important;
+  box-shadow: 0 0 0.5em rgba(52, 208, 88, 0.35) !important;
+
+  &:hover {
+    background-color: #34d058 !important;
+    color: #08080F !important;
+    box-shadow: 0 0 0.9em rgba(52, 208, 88, 0.55) !important;
+  }
+`
+
+const cancelCss = css`
+  ${buttonCss};
+  color: #ff5c5c !important;
+  border-color: #ff5c5c !important;
+  box-shadow: 0 0 0.5em rgba(255, 92, 92, 0.35) !important;
+
+  &:hover {
+    background-color: #ff5c5c !important;
+    color: #08080F !important;
+    box-shadow: 0 0 0.9em rgba(255, 92, 92, 0.55) !important;
   }
 `
 

@@ -16,7 +16,6 @@ export const Locators: Partial<Record<LocationType, Locator<number, MaterialType
   [LocationType.ObjectiveDeck]: objectiveDeckLocator,
   [LocationType.Table]: tableLocator,
   [LocationType.QuadriReveal]: quadriRevealLocator,
-  [LocationType.QuadriPending]: tableLocator,
   [LocationType.PlayerHand]: playerHandLocator,
   [LocationType.ScoredObjectives]: scoredObjectivesLocator,
   [LocationType.CoopObjective]: coopObjectiveLocator,
