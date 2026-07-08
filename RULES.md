@@ -22,7 +22,7 @@ Comparaison entre le livret de règles PDF (`app/public/rules-fr.pdf`) et le cod
 | 30 cartes Objectif piochées au hasard | `shuffle(pool).slice(0, 30)` | ✅ |
 | 3 cartes distribuées à chaque joueur | `deal(..., 3)` dans `dealObjectivesToPlayers()` | ✅ |
 | 1 carte Quadri face visible au centre | `placeInitialCard()` → Table x=0,y=0 | ✅ |
-| Mode découverte : retirer les cartes valeur 8 | `options.discovery` filtre `objectiveValues[id] < 8` | ✅ |
+| Difficulté : limiter les valeurs d'objectif | `options.difficulty` filtre `objectiveValues[id] <= difficultyMaxValue(difficulty)` (Facile ≤5, Moyen ≤6, Difficile ≤8) | ✅ |
 
 ### Déroulement
 
@@ -155,6 +155,5 @@ C'est conforme à la règle ("dont le joueur qui était actif… joue une derni�
 
 | Variante | Règle PDF | Statut |
 |----------|-----------|--------|
-| Mode avancé compétitif | *"Retirer les cartes valeur 3, ajouter valeur 8"* | ❌ Retiré : le compétitif n'a plus que le booléen `discovery`. La difficulté progressive est portée par le mode coop. |
-| Difficulté coop | *"Ajouter les cartes valeur 6 puis valeur 8"* | ✅ `CoopDifficulty` : Facile `{4,5}` / Moyen `{4,5,6}` / Difficile `{4,5,6,8}` — les deux paliers PDF sont désormais représentés |
+| Difficulté (compétitif & coop) | *"Ajouter les cartes valeur 6 puis valeur 8"* | ✅ Attribut unique `Difficulty` partagé (borne haute commune via `difficultyMaxValue`). Compétitif : Facile `{3,4,5}` / Moyen `{3,4,5,6}` / Difficile `{3,4,5,6,8}`. Coop : Facile `{4,5}` / Moyen `{4,5,6}` / Difficile `{4,5,6,8}` (pas de valeur 3) |
 | Limite joueurs par mode | PDF : compétitif/ball-trap = 2–4 joueurs, coop = 1–6 | ⏳ En attente de réponse sur la gestion framework |

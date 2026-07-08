@@ -7,20 +7,22 @@ export enum GameMode {
   BallTrap
 }
 
-/** Difficulty of the cooperative mode, driving which objective values enter the pool. */
-export enum CoopDifficulty {
-  Easy = 1,   // objectives of value 4 & 5
+/** Difficulty shared by the competitive and cooperative modes, driving which objective values enter the pool. */
+export enum Difficulty {
+  Easy = 1,   // objectives of value 3, 4 & 5
   Medium,     // + value 6
   Hard        // + value 8
 }
 
+/** Highest objective value allowed in the pool for a given difficulty. */
+export const difficultyMaxValue = (difficulty: Difficulty): number =>
+  difficulty === Difficulty.Hard ? 8 : difficulty === Difficulty.Medium ? 6 : 5
+
 export type QuadriOptions = {
   players: number
   mode: GameMode
-  /** Competitive only: remove value-8 objectives when discovering the game. */
-  discovery: boolean
-  /** Cooperative only: which objective pool is used. */
-  coopDifficulty: CoopDifficulty
+  /** Competitive & cooperative: which objective values enter the pool. */
+  difficulty: Difficulty
 }
 
 export const QuadriOptionsSpec: OptionsSpec<QuadriOptions> = {
@@ -38,17 +40,12 @@ export const QuadriOptionsSpec: OptionsSpec<QuadriOptions> = {
     }),
     competitiveValue: GameMode.Competitive
   },
-  discovery: {
-    label: (t) => t('option.discovery'),
-    help: (t) => t('option.discovery.help'),
-    hide: (players) => players > 4
-  },
-  coopDifficulty: {
-    label: (t) => t('option.coop-difficulty'),
-    help: (t) => t('option.coop-difficulty.help'),
-    values: [CoopDifficulty.Easy, CoopDifficulty.Medium, CoopDifficulty.Hard],
+  difficulty: {
+    label: (t) => t('option.difficulty'),
+    help: (t) => t('option.difficulty.help'),
+    values: [Difficulty.Easy, Difficulty.Medium, Difficulty.Hard],
     valueSpec: (difficulty) => ({
-      label: (t) => t(`option.coop-difficulty.${difficulty}`)
+      label: (t) => t(`option.difficulty.${difficulty}`)
     })
   },
   competitivePlayers: { min: 2, max: 6 },

@@ -80,7 +80,7 @@ export class QuadriRules
     if (this.isCooperative()) {
       // Failure scores 0. Otherwise: difficulty × 10 + Quadri cards left in the deck.
       if (!this.hasWonCoop()) return 0
-      const difficulty = this.remind<number>(Memory.CoopDifficulty)
+      const difficulty = this.remind<number>(Memory.Difficulty)
       const cardsLeft = this.material(MaterialType.QuadriCard).location(LocationType.QuadriDeck).length
       return difficulty * 10 + cardsLeft
     }
