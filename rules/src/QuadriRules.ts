@@ -76,6 +76,10 @@ export class QuadriRules
     return this.material(MaterialType.ObjectiveCard).location(LocationType.CoopObjective).length === 0
   }
 
+  getCoopRealisedCount(): number {
+    return this.material(MaterialType.ObjectiveCard).location(LocationType.CoopRealisedObjectives).length
+  }
+
   getScore(playerId: number): number {
     if (this.isCooperative()) {
       // Failure scores 0. Otherwise: difficulty × 10 + Quadri cards left in the deck.

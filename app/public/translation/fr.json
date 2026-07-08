@@ -1,8 +1,8 @@
 {
   "more.than.4.players.require.coop": "Les version compétitive et balltrap ne peuvent pas se jouer avec plus de 4 joueurs.",
   "less.than.2.players.require.coop": "Les version compétitive et balltrap ne peuvent pas se jouer en solo.",
-  "coop.victory": "Bravo, vous remportez la partie !",
-  "coop.defeat": "Vous avez perdu...",
+  "coop.victory": "Bravo, vous avez réussi les 10 objectifs !",
+  "coop.defeat": "Vous avez réussi {count, plural, one{# objectif} other{# objectifs}} sur 10.",
   "header.place-card.mine": "Placez la carte Quadri, pivotez-la puis validez",
   "header.place-card.other": "{player} place une carte Quadri",
   "header.check-objectives": "Vérification des objectifs...",
