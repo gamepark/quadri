@@ -12,10 +12,10 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.6",
     "globals": "^17.7.0",
-    "prettier": "^3.9.4",
+    "prettier": "^3.9.5",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.62.1",
-    "vitest": "^4.1.9"
+    "typescript-eslint": "^8.63.0",
+    "vitest": "^4.1.10"
   },
   "scripts": {
     "dev": "yarn workspace @gamepark/quadri-app run dev",

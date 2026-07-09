@@ -6,7 +6,7 @@ import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { QuadriCard } from '@gamepark/quadri/material/QuadriCard'
 import { Memory } from '@gamepark/quadri/rules/Memory'
 import { CardDescription, ItemContext, ItemMenuButton, MaterialContext } from '@gamepark/react-game'
-import { isMoveItemType, Location, MaterialItem, MaterialMove } from '@gamepark/rules-api'
+import { MaterialItem } from '@gamepark/rules-api'
 import card1 from '../images/cartes_quadri/cartes_quadri_01.jpg'
 import card2 from '../images/cartes_quadri/cartes_quadri_02.jpg'
 import card3 from '../images/cartes_quadri/cartes_quadri_03.jpg'
@@ -86,19 +86,6 @@ class QuadriCardDescription extends CardDescription {
     }
 
     return undefined
-  }
-
-  getDropLocations(context: ItemContext, dragMoves: MaterialMove[]): Location[] {
-    const preview = context.rules.remind<number | undefined>(Memory.QuadriPreview)
-    if (preview !== undefined) {
-      // Drop the previewed card's own cell from the drop targets: dropping it back in place must not
-      // validate. Only dragging it to another cell repositions it; validation is done via the button.
-      const { x, y } = context.rules.material(MaterialType.QuadriCard).getItem(preview).location
-      dragMoves = dragMoves.filter(move =>
-        !(isMoveItemType(MaterialType.QuadriCard)(move) && move.location.x === x && move.location.y === y)
-      )
-    }
-    return super.getDropLocations(context, dragMoves)
   }
 
   isFlippedOnTable(item: Partial<MaterialItem>, context: MaterialContext): boolean {
