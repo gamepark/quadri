@@ -1,19 +1,21 @@
 import { css } from '@emotion/react'
 import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
-import { DeckLocator, LocationDescription } from '@gamepark/react-game'
+import { DeckLocator, LocationDescription, MaterialContext } from '@gamepark/react-game'
 import { objectiveCardDescription } from '../material/ObjectiveCardDescription'
 import { createStackSpotCounter } from './component/StackSpotCounter.tsx'
-import { getEdgeOrigin, toEdgeCoords } from './edgeOrigin'
+import { columnOrigin, objectiveDeckCenter } from './layout'
 
-const ABS = { x: -40, y: -7 }
-
+/** Competitive shared objective draw pile, under the panels (below the scored piles). */
 class ObjectiveDeckLocator extends DeckLocator {
-  locationOrigin = getEdgeOrigin(ABS.x, ABS.y)
-  getCoordinates() { return toEdgeCoords(ABS.x, ABS.y) }
+  locationOrigin = columnOrigin
   navigationSorts = []
   location = {}
   locationDescription = new ObjectiveDeckDescription(objectiveCardDescription)
+
+  getCoordinates(_location: object, context: MaterialContext) {
+    return objectiveDeckCenter(context.rules.players.length)
+  }
 }
 
 class ObjectiveDeckDescription extends LocationDescription {
@@ -21,22 +23,6 @@ class ObjectiveDeckDescription extends LocationDescription {
 
   extraCss = css`
     position: relative;
-
-    > span {
-      position: absolute;
-      bottom: -1.5em;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1.75em;
-      font-weight: bolder;
-      color: white;
-      opacity: 0.7;
-      text-shadow:
-        3px 3px 0 #000,
-        -3px 3px 0 #000,
-        -3px -3px 0 #000,
-        3px -3px 0 #000;
-    }
   `
 }
 

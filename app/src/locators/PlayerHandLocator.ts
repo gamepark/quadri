@@ -1,60 +1,23 @@
 import { getRelativePlayerIndex, HandLocator, MaterialContext } from '@gamepark/react-game'
+import { QuadriRules } from '@gamepark/quadri/QuadriRules'
 import { Location } from '@gamepark/rules-api'
-import { getEdgeOrigin, toEdgeCoords } from './edgeOrigin'
+import { columnOrigin, getMode, handCenterY, HAND_X } from './layout'
 
-type Position = { x: number; y: number; baseAngle: number }
-
-const positionsByPlayerCount: Record<number, Position[]> = {
-  2: [
-    { x: -30, y: 19, baseAngle: 0 },
-    { x: 40, y: 19, baseAngle: 0 },
-  ],
-  3: [
-    { x: -30, y: 19, baseAngle: 0 },
-    { x: -30, y: -19, baseAngle: 180 },
-    { x: 30, y: -19, baseAngle: 180 },
-  ],
-  4: [
-    { x: -30, y: 19, baseAngle: 0 },
-    { x: -30, y: -19, baseAngle: 180 },
-    { x: 30, y: -19, baseAngle: 180 },
-    { x: 30, y: 19, baseAngle: 0 },
-  ],
-  5: [],
-  6: [],
-}
-
+/**
+ * A player's hand (competitive objectives, or ball-trap objectives) shown as a compact fan on the
+ * player's row, just right of their panel. Used for both LocationType.PlayerHand and BallTrapHand.
+ */
 class PlayerHandLocator extends HandLocator {
-
-  getAbsoluteCoordinates(location: Location, context: MaterialContext): { x: number; y: number } {
-    const playerCount = context.rules.players.length
-    const index = getRelativePlayerIndex(context, location.player)
-    const positions = positionsByPlayerCount[playerCount] ?? positionsByPlayerCount[6]
-    const pos = positions[index] ?? positions[0]
-    return { x: pos.x, y: pos.y }
-  }
+  locationOrigin = columnOrigin
+  radius = 60
+  maxAngle = 12
+  gapMaxAngle = 6
+  baseAngle = 0
 
   getCoordinates(location: Location, context: MaterialContext) {
-    const abs = this.getAbsoluteCoordinates(location, context)
-    return toEdgeCoords(abs.x, abs.y)
-  }
-
-  getLocationOrigin(location: Location, context: MaterialContext) {
-    const abs = this.getAbsoluteCoordinates(location, context)
-    return getEdgeOrigin(abs.x, abs.y)
-  }
-
-  getBaseAngle(location: Location, context: MaterialContext) {
-    const playerCount = context.rules.players.length
     const index = getRelativePlayerIndex(context, location.player)
-    const positions = positionsByPlayerCount[playerCount] ?? positionsByPlayerCount[6]
-    return (positions[index] ?? positions[0]).baseAngle
+    return { x: HAND_X, y: handCenterY(index, context.rules.players.length, getMode(context.rules as QuadriRules)) }
   }
 }
 
 export const playerHandLocator = new PlayerHandLocator()
-
-export const getHandPosition = (playerCount: number, relativeIndex: number): { x: number; y: number } => {
-  const positions = positionsByPlayerCount[Math.min(playerCount, 4)]!
-  return positions[relativeIndex] ?? positions[0]
-}

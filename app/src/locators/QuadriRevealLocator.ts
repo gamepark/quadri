@@ -1,12 +1,15 @@
-import { Locator } from '@gamepark/react-game'
-import { MaterialItem } from '@gamepark/rules-api'
-import { getEdgeOrigin, toEdgeCoords } from './edgeOrigin'
+import { Locator, MaterialContext } from '@gamepark/react-game'
+import { QuadriRules } from '@gamepark/quadri/QuadriRules'
+import { Location, MaterialItem } from '@gamepark/rules-api'
+import { columnOrigin, getMode, quadriRevealCenter } from './layout'
 
-const ABS = { x: -30, y: 5 }
-
+/** The freshly drawn Quadri card, waiting to be placed, shown next to the Quadri deck. */
 class QuadriRevealLocator extends Locator {
-  locationOrigin = getEdgeOrigin(ABS.x, ABS.y)
-  getLocationCoordinates() { return toEdgeCoords(ABS.x, ABS.y) }
+  locationOrigin = columnOrigin
+
+  getCoordinates(_location: Location, context: MaterialContext) {
+    return quadriRevealCenter(context.rules.players.length, getMode(context.rules as QuadriRules))
+  }
 
   // Show the local pre-placement rotation applied to the revealed card.
   getItemRotateZ(item: MaterialItem) {

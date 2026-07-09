@@ -1,9 +1,9 @@
 import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { ObjectiveCard } from '@gamepark/quadri/material/ObjectiveCard'
-import { CardDescription, ItemContext } from '@gamepark/react-game'
+import { CardDescription, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { ObjectiveCardHelp } from './help/ObjectiveCardHelp'
-import { isMoveItemType, MaterialMove } from '@gamepark/rules-api'
+import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import obj01 from '../images/objectifs/objectif_01.jpg'
 import obj02 from '../images/objectifs/objectif_02.jpg'
 import obj03 from '../images/objectifs/objectif_03.jpg'
@@ -106,6 +106,10 @@ class ObjectiveCardDescription extends CardDescription {
     if (move.itemIndex !== context.index) return false
     return move.location.type === LocationType.ScoredObjectives
       || move.location.type === LocationType.BallTrapEliminatedObjectives
+  }
+
+  isFlippedOnTable(item: Partial<MaterialItem>, context: MaterialContext): boolean {
+    return item.location?.type === LocationType.ObjectiveDeck || super.isFlippedOnTable(item, context)
   }
 }
 

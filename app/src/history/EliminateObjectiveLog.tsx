@@ -6,7 +6,9 @@ import { Trans } from 'react-i18next'
 import { ObjectiveCardChip } from './ObjectiveCardChip'
 
 export const EliminateObjectiveLog = ({ move, context }: MaterialLogProps<MoveItem>) => {
-  const eliminator = usePlayerName(move.location.player)
+  // Pile is shared (no owner): the eliminator is the active player, the target is the objective's owner
+  // (context.game is the pre-move state, so the card is still in its owner's BallTrapHand).
+  const eliminator = usePlayerName(context.game.rule?.player)
   const item = new QuadriRules(context.game).material(MaterialType.ObjectiveCard).getItem(move.itemIndex)
   const displayItem = item ? { ...item, id: move.reveal?.id ?? item.id } : undefined
   const target = usePlayerName(item?.location.player)

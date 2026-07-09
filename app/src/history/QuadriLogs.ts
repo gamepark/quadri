@@ -22,7 +22,8 @@ export class QuadriLogs implements LogDescription<MaterialMove, number, Material
         return { player: move.location.player, Component: ScoreObjectiveLog }
       }
       if (move.location.type === LocationType.BallTrapEliminatedObjectives) {
-        return { player: move.location.player, Component: EliminateObjectiveLog }
+        // The elimination pile is shared (no owner); the eliminator is the player whose turn it is.
+        return { player: context.game.rule?.player, Component: EliminateObjectiveLog }
       }
       if (move.location.type === LocationType.CoopRealisedObjectives) {
         return { Component: CoopObjectiveLog, depth: 1 }

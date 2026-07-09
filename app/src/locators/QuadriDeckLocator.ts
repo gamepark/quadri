@@ -1,19 +1,21 @@
 import { css } from '@emotion/react'
 import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
-import { DeckLocator, LocationDescription } from '@gamepark/react-game'
+import { QuadriRules } from '@gamepark/quadri/QuadriRules'
+import { DeckLocator, LocationDescription, MaterialContext } from '@gamepark/react-game'
 import { quadriCardDescription } from '../material/QuadriCardDescription.tsx'
 import { createStackSpotCounter } from './component/StackSpotCounter.tsx'
-import { getEdgeOrigin, toEdgeCoords } from './edgeOrigin'
-
-const ABS = { x: -40, y: 5 }
+import { columnOrigin, getMode, quadriDeckCenter } from './layout'
 
 class QuadriDeckLocator extends DeckLocator {
-  locationOrigin = getEdgeOrigin(ABS.x, ABS.y)
-  getCoordinates() { return toEdgeCoords(ABS.x, ABS.y) }
+  locationOrigin = columnOrigin
   navigationSorts = []
   location = {}
   locationDescription = new QuadriDeckDescription(quadriCardDescription)
+
+  getCoordinates(_location: object, context: MaterialContext) {
+    return quadriDeckCenter(context.rules.players.length, getMode(context.rules as QuadriRules))
+  }
 }
 
 class QuadriDeckDescription extends LocationDescription {
@@ -21,22 +23,6 @@ class QuadriDeckDescription extends LocationDescription {
 
   extraCss = css`
     position: relative;
-
-    > span {
-      position: absolute;
-      bottom: -1.5em;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 1.75em;
-      font-weight: bolder;
-      color: white;
-      opacity: 0.7;
-      text-shadow:
-        3px 3px 0 #000,
-        -3px 3px 0 #000,
-        -3px -3px 0 #000,
-        3px -3px 0 #000;
-    }
   `
 }
 

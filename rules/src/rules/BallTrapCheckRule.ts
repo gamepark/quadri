@@ -24,15 +24,16 @@ import { RuleId } from './RuleId'
 export class BallTrapCheckRule extends PlayerTurnRule<number, MaterialType, LocationType, RuleId> {
   onRuleStart(): MaterialMove<number, MaterialType, LocationType, RuleId>[] {
     const colorMap = buildColorMap(this.material(MaterialType.QuadriCard).location(LocationType.Table).getItems())
-    // Credit the elimination to the player who just placed (the current player, kept via startRule).
-    const eliminator = this.player
 
     const eliminateMoves: MaterialMove<number, MaterialType, LocationType, RuleId>[] = []
     for (const player of this.game.players) {
       const hand = this.material(MaterialType.ObjectiveCard).location(LocationType.BallTrapHand).player(player)
       for (const item of hand.getItems()) {
         if (isObjectiveRealized(objectivePatterns[item.id as ObjectiveCard], colorMap)) {
-          eliminateMoves.push(hand.id(item.id).moveItem({ type: LocationType.BallTrapEliminatedObjectives, player: eliminator }))
+          // Move to the single shared elimination pile (no owner) so every eliminated objective stays in
+          // the same location area and the deck locator stacks them as one pile. Who eliminated it (for the
+          // history log) is read from the active turn instead — see QuadriLogs / EliminateObjectiveLog.
+          eliminateMoves.push(hand.id(item.id).moveItem({ type: LocationType.BallTrapEliminatedObjectives }))
         }
       }
     }

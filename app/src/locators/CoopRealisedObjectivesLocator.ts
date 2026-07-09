@@ -1,11 +1,13 @@
-import { DeckLocator } from '@gamepark/react-game'
-import { getEdgeOrigin, toEdgeCoords } from './edgeOrigin'
+import { DeckLocator, MaterialContext } from '@gamepark/react-game'
+import { columnOrigin, coopRealisedCenter } from './layout'
 
-const ABS = { x: -40, y: -5 }
-
+/** Shared pile of realised cooperative objectives, to the right of the objectives grid. */
 class CoopRealisedObjectivesLocator extends DeckLocator {
-  locationOrigin = getEdgeOrigin(ABS.x, ABS.y)
-  getCoordinates() { return toEdgeCoords(ABS.x, ABS.y) }
+  locationOrigin = columnOrigin
+
+  getCoordinates(_location: object, context: MaterialContext) {
+    return coopRealisedCenter(context.rules.players.length)
+  }
 }
 
 export const coopRealisedObjectivesLocator = new CoopRealisedObjectivesLocator()

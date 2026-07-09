@@ -5,7 +5,7 @@ import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { QuadriCard } from '@gamepark/quadri/material/QuadriCard'
 import { Memory } from '@gamepark/quadri/rules/Memory'
-import { CardDescription, ItemContext, ItemMenuButton } from '@gamepark/react-game'
+import { CardDescription, ItemContext, ItemMenuButton, MaterialContext } from '@gamepark/react-game'
 import { isMoveItemType, Location, MaterialItem, MaterialMove } from '@gamepark/rules-api'
 import card1 from '../images/cartes_quadri/cartes_quadri_01.jpg'
 import card2 from '../images/cartes_quadri/cartes_quadri_02.jpg'
@@ -99,6 +99,10 @@ class QuadriCardDescription extends CardDescription {
       )
     }
     return super.getDropLocations(context, dragMoves)
+  }
+
+  isFlippedOnTable(item: Partial<MaterialItem>, context: MaterialContext): boolean {
+    return item.location?.type === LocationType.QuadriDeck || super.isFlippedOnTable(item, context)
   }
 }
 

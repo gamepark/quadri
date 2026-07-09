@@ -1,11 +1,14 @@
-import { DeckLocator } from '@gamepark/react-game'
-import { getEdgeOrigin, toEdgeCoords } from './edgeOrigin'
+import { DeckLocator, MaterialContext } from '@gamepark/react-game'
+import { QuadriRules } from '@gamepark/quadri/QuadriRules'
+import { columnOrigin, deckRowY, getMode, PILE_X } from './layout'
 
-const ABS = { x: -40, y: -5 }
-
+/** Shared pile of eliminated ball-trap objectives, at the bottom of the column. */
 class BallTrapEliminatedObjectivesLocator extends DeckLocator {
-  locationOrigin = getEdgeOrigin(ABS.x, ABS.y)
-  getCoordinates() { return toEdgeCoords(ABS.x, ABS.y) }
+  locationOrigin = columnOrigin
+
+  getCoordinates(_location: object, context: MaterialContext) {
+    return { x: PILE_X, y: deckRowY(context.rules.players.length, getMode(context.rules as QuadriRules)) }
+  }
 }
 
 export const ballTrapEliminatedObjectivesLocator = new BallTrapEliminatedObjectivesLocator()
