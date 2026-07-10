@@ -219,7 +219,7 @@ export const theme: GameTheme = {
     fontFamily: fontBody,
     background: {
       image: background,
-      overlay: 'rgba(0, 0, 0, 0.8)'
+      overlay: 'rgba(0, 0, 0, 0.6)'
     }
   },
   palette: {
