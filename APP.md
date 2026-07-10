@@ -164,6 +164,8 @@ Pas de conflit (mode coop sans pioche Objectif compétitive). ℹ️
 - `ResultHeader` — coop (`hasWonCoop()`), ball-trap (`getScore(me) > 0`), compétitif (`resultText` — framework affiche le classement) ✓
 - Tableau de scores de la popup — ligne **Score** (`getScore`) pour tous les modes ; en compétitif, ligne supplémentaire **Objectifs** = tie-breaker (`getTieBreaker(1)` = nb d'objectifs réalisés) ✓
 
+**LastTurnDialog** (`dialogs/LastTurnDialog.tsx`) — popup affichée au joueur actif au début de son dernier tour, montée dans `App.tsx`. Déclencheurs (méthodes `QuadriRules`) : `isLastQuadriTurn()` (le joueur ne rejouera plus car la pioche Quadri s'épuise avant son prochain tour → `QuadriDeck.length < nb joueurs`, tous modes — pas seulement la toute dernière carte) ou `isFinalObjectiveRound()` (pile objectifs vide → dernier tour, compétitif via `Memory.LastPlayer`). Affichée une fois, refermée manuellement (state local `dismissed`, reset quand le dernier tour est passé) ✓
+
 ---
 
 ## PlayerPanels.tsx

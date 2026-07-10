@@ -1,6 +1,7 @@
 import { FailuresDialog, FullscreenDialog, LoadingScreen, MaterialGameSounds, MaterialHeader, MaterialImageLoader, Menu, useGame } from '@gamepark/react-game'
 import { MaterialGame } from '@gamepark/rules-api'
 import { useEffect, useState } from 'react'
+import { LastTurnDialog } from './dialogs/LastTurnDialog'
 import { GameDisplay } from './GameDisplay'
 import { Headers } from './headers/Headers'
 
@@ -20,6 +21,7 @@ export function App() {
       <MaterialImageLoader onImagesLoad={() => setImagesLoading(false)} />
       <MaterialGameSounds />
       <Menu />
+      <LastTurnDialog />
       <FailuresDialog />
       <FullscreenDialog />
     </>

@@ -102,6 +102,27 @@ export class QuadriRules
     return undefined
   }
 
+  /**
+   * The active player won't get another turn because the Quadri deck runs out first (all modes).
+   * My next turn comes after the other (players − 1) turns, each revealing a card, then my own
+   * reveal: so I play again only if the deck still holds at least `players` cards. Below that, this
+   * is my last turn — even when the revealed card is not literally the last of the deck.
+   * Only meaningful during a PlaceQuadriCard turn.
+   */
+  isLastQuadriTurn(): boolean {
+    return this.game.rule?.id === RuleId.PlaceQuadriCard
+      && this.material(MaterialType.QuadriCard).location(LocationType.QuadriDeck).length < this.game.players.length
+  }
+
+  /**
+   * Competitive only: the objective pile emptied, so every player takes one final turn
+   * (see CheckObjectivesRule — Memory.LastPlayer is set when the deck runs out).
+   */
+  isFinalObjectiveRound(): boolean {
+    return this.game.rule?.id === RuleId.PlaceQuadriCard
+      && this.remind<number | undefined>(Memory.LastPlayer) !== undefined
+  }
+
   previewMove(move: MaterialMove<number, MaterialType, LocationType>): boolean {
     // Placing and rotating a Quadri card on the table stays local (a preview): only the final
     // validation — a move to the card's already-previewed location — is sent to the server. This
