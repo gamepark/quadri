@@ -16,6 +16,10 @@ import card6 from '../images/cartes_quadri/cartes_quadri_06.jpg'
 import cardBack from '../images/cartes_quadri/cartes_quadri_dos.jpg'
 import { QuadriCardHelp } from './help/QuadriCardHelp'
 
+// Tutorial step index (0-based, in Tutorial.tsx) at which the player places their first tile.
+// Up to and including it, that tile must not be rotated (magenta diagonal objective).
+const TUTORIAL_FIRST_PLACEMENT_STEP = 4
+
 class QuadriCardDescription extends CardDescription {
   width = 7
   height = 7
@@ -46,8 +50,19 @@ class QuadriCardDescription extends CardDescription {
       && context.player === context.rules.game.rule?.player
   }
 
+  // In the tutorial, the very first Quadri tile must stay at rotation 0 so its magenta corner lands
+  // on the diagonal (see Tutorial.tsx). Rotating it — even locally — would break the objective, so
+  // its rotation controls are suppressed up to and including the first placement step.
+  private isTutorialFirstPlacement(context: ItemContext): boolean {
+    const step = context.rules.game.tutorial?.step
+    return step !== undefined && step <= TUTORIAL_FIRST_PLACEMENT_STEP
+  }
+
   isMenuAlwaysVisible(item: MaterialItem, context: ItemContext): boolean {
-    return this.isPreviewedCard(item, context) || this.isRevealedForActivePlayer(item, context)
+    // The revealed card only needs its always-on menu for the rotation buttons; skip it when those
+    // are suppressed (tutorial first tile) so no empty menu is forced.
+    return this.isPreviewedCard(item, context)
+      || (this.isRevealedForActivePlayer(item, context) && !this.isTutorialFirstPlacement(context))
   }
 
   getItemMenu(item: MaterialItem, context: ItemContext) {
@@ -56,7 +71,8 @@ class QuadriCardDescription extends CardDescription {
     const rotateLeft = card.moveItem(it => ({ ...it.location, rotation: (((it.location.rotation ?? 0) as number) + 3) % 4 }))
     const rotateRight = card.moveItem(it => ({ ...it.location, rotation: (((it.location.rotation ?? 0) as number) + 1) % 4 }))
 
-    const rotationButtons = <>
+    // Rotation is forbidden on the tutorial's first tile: don't offer its rotate buttons at all.
+    const rotationButtons = this.isTutorialFirstPlacement(context) ? null : <>
       <ItemMenuButton move={rotateLeft} options={{ local: true }} x={-4.5} y={0} css={buttonCss}>
         <FontAwesomeIcon icon={faRotateLeft} />
       </ItemMenuButton>
@@ -65,9 +81,9 @@ class QuadriCardDescription extends CardDescription {
       </ItemMenuButton>
     </>
 
-    // Before placement: only the rotation buttons on the revealed card.
+    // Before placement: only the rotation buttons on the revealed card (none during the first tuto tile).
     if (this.isRevealedForActivePlayer(item, context)) {
-      return rotationButtons
+      return rotationButtons ?? undefined
     }
 
     if (this.isPreviewedCard(item, context)) {

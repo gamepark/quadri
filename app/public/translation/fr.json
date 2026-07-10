@@ -43,9 +43,11 @@
   "tuto.welcome": "Bienvenue dans <b>Quadri</b> ! Votre mission : reproduire des motifs de couleurs sur la table pour marquer un maximum de points.",
   "tuto.initial-card": "La partie débute avec une <b>carte Quadri</b> au centre de la table. Chaque carte est composée de 4 carrés de couleur différente : cyan, magenta, jaune et noir.",
   "tuto.revealed-card": "Voici la carte que vous venez de piocher. À votre tour, vous devez la poser sur la table en <b>recouvrant de 1 à 3 carrés</b> de cartes déjà placées.",
-  "tuto.objectives": "Voici vos 3 <b>cartes Objectif</b>. Chacune montre un motif à reproduire sur la table. Réalisez-le pour marquer les points indiqués — même en jeu adverse !",
-  "tuto.place-card": "Posez la carte ici, en chevauchant exactement <b>1 carré</b> de la carte initiale. Une fois posée, vous pouvez la <b>faire pivoter</b> avec les boutons latéraux : ces essais restent locaux et n'encombrent pas l'historique. Pour ce tutoriel, laissez-la en place et cliquez sur <b>Valider</b> !",
+  "tuto.objectives": "Voici vos 3 <b>cartes Objectif</b>. Chacune montre un motif à reproduire sur la table. Réalisez le motif pour marquer les points indiqués !",
+  "tuto.place-card": "Posez la carte sur la table, en chevauchant <b>le carré noir</b> de la carte de départ. Ensuite, cliquez sur <b>Valider</b> !",
   "tuto.objective-realized": "Regardez la table ! La <b>diagonale magenta</b> est apparue : votre objectif est <b>automatiquement réalisé</b>.",
-  "tuto.new-objective": "Bravo ! Vous marquez des points et piochez automatiquement une nouvelle <b>carte Objectif</b> pour toujours en avoir 3 en main.",
-  "tuto.end": "Vous maîtrisez les règles de Quadri ! Lorsqu'un joueur pioche la dernière carte Objectif, chaque joueur joue <b>une dernière fois</b>. Si la pioche de cartes Quadri est épuisée, la partie s'achève <b>immédiatement</b>. Le joueur avec le plus de points gagne — en cas d'égalité, celui qui a réalisé le plus d'objectifs l'emporte. À vous de jouer !"
+  "tuto.new-objective": "Bravo ! Vous marquez des points et piochez automatiquement une nouvelle <b>carte Objectif</b> pour en avoir toujours 3 en main.",
+  "tuto.end-1": "Si un joueur pioche la <b>dernière carte Objectif</b>, tous les joueurs jouent un <b>dernier tour</b>.",
+  "tuto.end-2": "Si la pioche de <b>cartes Quadri</b> est vide, la partie s'arrête <b>immédiatement</b>.",
+  "tuto.end-3": "Le joueur avec le <b>plus de points</b> gagne.\nVous connaissez les règles de Quadri : à vous de jouer maintenant !"
 }

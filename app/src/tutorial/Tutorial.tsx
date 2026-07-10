@@ -38,7 +38,7 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
     {
       popup: {
         text: () => <Trans i18nKey="tuto.welcome" components={{ b: <strong /> }} />,
-        position: { y: -20 },
+        position: { x: -20 },
       },
     },
 
@@ -46,7 +46,7 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
     {
       popup: {
         text: () => <Trans i18nKey="tuto.initial-card" components={{ b: <strong /> }} />,
-        position: { y: -20 },
+        position: { x: -20 },
       },
       focus: (game: MaterialGame<number, MaterialType, LocationType>) => ({
         materials: [
@@ -60,11 +60,11 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
     {
       popup: {
         text: () => <Trans i18nKey="tuto.revealed-card" components={{ b: <strong /> }} />,
+        position: { x: -20 },
       },
       focus: (game: MaterialGame<number, MaterialType, LocationType>) => ({
         materials: [
-          this.material(game, MaterialType.QuadriCard).location(LocationType.QuadriReveal),
-          this.material(game, MaterialType.QuadriCard).location(LocationType.Table),
+          this.material(game, MaterialType.QuadriCard).location(LocationType.QuadriReveal)
         ],
         margin: { left: 3, right: 3, top: 3, bottom: 3 },
       }),
@@ -74,7 +74,7 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
     {
       popup: {
         text: () => <Trans i18nKey="tuto.objectives" components={{ b: <strong /> }} />,
-        position: { y: -15 },
+        position: { x: -20 },
       },
       focus: (game: MaterialGame<number, MaterialType, LocationType>) => ({
         materials: [
@@ -84,11 +84,12 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
       }),
     },
 
-    // Étape 5 : Poser la carte à (1, 1), la pivoter puis valider — une seule pose validée
+    // Étape 5 : Poser la carte à (1, 1) sans rotation puis valider — le coin magenta (haut-gauche)
+    // doit rester sur la diagonale pour réaliser l'objectif ; toute rotation casserait la diagonale.
     {
       popup: {
         text: () => <Trans i18nKey="tuto.place-card" components={{ b: <strong /> }} />,
-        position: { y: 15 },
+        position: { x: -20 },
       },
       focus: (game: MaterialGame<number, MaterialType, LocationType>) => ({
         materials: [
@@ -102,7 +103,8 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
           isMoveItemType(MaterialType.QuadriCard)(move) &&
           move.location.type === LocationType.Table &&
           move.location.x === 1 &&
-          move.location.y === 1,
+          move.location.y === 1 &&
+          move.location.rotation === 0,
       },
     },
 
@@ -123,7 +125,7 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
     {
       popup: {
         text: () => <Trans i18nKey="tuto.objective-realized" components={{ b: <strong /> }} />,
-        position: { y: -20 },
+        position: { x: -20 },
       },
     },
 
@@ -131,13 +133,27 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
     {
       popup: {
         text: () => <Trans i18nKey="tuto.new-objective" components={{ b: <strong /> }} />,
+        position: { x: -20 },
       },
     },
 
-    // Étape 12 : Fin du tutoriel
+    // Étape 12 : Fin du tutoriel — les conditions de fin de partie, en 3 popups
     {
       popup: {
-        text: () => <Trans i18nKey="tuto.end" components={{ b: <strong /> }} />,
+        text: () => <Trans i18nKey="tuto.end-1" components={{ b: <strong /> }} />,
+        position: { x: -20 },
+      },
+    },
+    {
+      popup: {
+        text: () => <Trans i18nKey="tuto.end-2" components={{ b: <strong /> }} />,
+        position: { x: -20 },
+      },
+    },
+    {
+      popup: {
+        text: () => <Trans i18nKey="tuto.end-3" components={{ b: <strong /> }} />,
+        position: { x: -20 },
       },
     },
   ]
