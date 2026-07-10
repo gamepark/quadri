@@ -2,7 +2,6 @@ import { FailuresDialog, FullscreenDialog, LoadingScreen, MaterialGameSounds, Ma
 import { MaterialGame } from '@gamepark/rules-api'
 import { useEffect, useState } from 'react'
 import { GameDisplay } from './GameDisplay'
-import { GameOverHeader } from './headers/GameOverHeader'
 import { Headers } from './headers/Headers'
 
 export function App() {
@@ -17,7 +16,7 @@ export function App() {
     <>
       {!!game && <GameDisplay />}
       <LoadingScreen display={loading} />
-      <MaterialHeader rulesStepsHeaders={Headers} GameOver={GameOverHeader} loading={loading} />
+      <MaterialHeader rulesStepsHeaders={Headers} loading={loading} />
       <MaterialImageLoader onImagesLoad={() => setImagesLoading(false)} />
       <MaterialGameSounds />
       <Menu />

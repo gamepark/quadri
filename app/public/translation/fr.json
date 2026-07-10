@@ -38,6 +38,8 @@
   "log.score-objective-unknown": "{player} a réalisé un objectif",
   "log.eliminate-objective": "{eliminator} a éliminé <card></card> de {target}",
   "log.coop-objective-realised": "Objectif commun réalisé <card></card>",
+  "scoring.score": "Score",
+  "scoring.objectives": "Objectifs",
   "balltrap.victory": "Bravo, vous êtes le dernier avec des objectifs !",
   "balltrap.defeat": "Vous avez perdu, tous vos objectifs ont été éliminés...",
   "tuto.welcome": "Bienvenue dans <b>Quadri</b> ! Votre mission : reproduire des motifs de couleurs sur la table pour marquer un maximum de points.",

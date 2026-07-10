@@ -9,6 +9,7 @@ import { App } from './App'
 import { QuadriLogs } from './history/QuadriLogs'
 import { Locators } from './locators/Locators'
 import { Material } from './material/Material'
+import { QuadriScoring } from './scoring/QuadriScoring'
 import { theme } from './theme'
 import { Tutorial } from './tutorial/Tutorial'
 import { ai } from './tutorial/TutorialAI'
@@ -24,6 +25,7 @@ createRoot(document.getElementById('root')!).render(
       locators={Locators}
       animations={gameAnimations}
       logs={new QuadriLogs()}
+      scoring={new QuadriScoring()}
       theme={theme}
       tutorial={new Tutorial()}
       ai={ai}

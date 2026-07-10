@@ -160,7 +160,9 @@ Pas de conflit (mode coop sans pioche Objectif compétitive). ℹ️
 
 **BallTrapCheckHeader** — utilise `useLegalMoves()` pour distinguer "rien à éliminer → auto-passe" vs "afficher le message" ⚠️ — voir section problèmes
 
-**GameOverHeader** — coop (`hasWonCoop()`), ball-trap (`getScore(me) > 0`), compétitif (`null` — framework affiche le classement) ✓
+**QuadriScoring** (`scoring/QuadriScoring.tsx`) — `ScoringDescription` fournie via la prop `scoring` du `GameProvider` (l'ancienne prop dépréciée `MaterialHeader GameOver` est supprimée), donc le bandeau et la popup de résultat restent alignés ✓
+- `ResultHeader` — coop (`hasWonCoop()`), ball-trap (`getScore(me) > 0`), compétitif (`resultText` — framework affiche le classement) ✓
+- Tableau de scores de la popup — ligne **Score** (`getScore`) pour tous les modes ; en compétitif, ligne supplémentaire **Objectifs** = tie-breaker (`getTieBreaker(1)` = nb d'objectifs réalisés) ✓
 
 ---
 
