@@ -1,6 +1,13 @@
+import { css } from '@emotion/react'
+import { faCheck } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
 import { ObjectiveCard } from '@gamepark/quadri/material/ObjectiveCard'
+import { objectivePatterns } from '@gamepark/quadri/material/ObjectiveCardPattern'
+import { buildColorMap } from '@gamepark/quadri/rules/colorMap'
+import { Memory } from '@gamepark/quadri/rules/Memory'
+import { isObjectiveRealized } from '@gamepark/quadri/rules/objectiveCheck'
 import { CardDescription, ItemContext, MaterialContext } from '@gamepark/react-game'
 import { ObjectiveCardHelp } from './help/ObjectiveCardHelp'
 import { isMoveItemType, MaterialItem, MaterialMove } from '@gamepark/rules-api'
@@ -111,6 +118,51 @@ class ObjectiveCardDescription extends CardDescription {
   isFlippedOnTable(item: Partial<MaterialItem>, context: MaterialContext): boolean {
     return item.location?.type === LocationType.ObjectiveDeck || super.isFlippedOnTable(item, context)
   }
+
+  // While a Quadri card is previewed (placed but not yet validated), an active objective becomes
+  // realized only because of that preview: the check rules always clear realized objectives after
+  // each validation, so any objective realized during preview is one the placement would complete.
+  private isRealizedByPreview(item: MaterialItem, context: ItemContext): boolean {
+    // No preview in progress → nothing to foreshadow.
+    if (context.rules.remind(Memory.QuadriPreview) === undefined) return false
+    // Only objectives still in play, and visible to the viewer (hidden cards have no id):
+    // my hand (competitive), the others' hands (ball trap), or the shared objectives (coop).
+    if (item.id === undefined) return false
+    const location = item.location.type
+    if (location !== LocationType.PlayerHand
+      && location !== LocationType.BallTrapHand
+      && location !== LocationType.CoopObjective) return false
+    // The previewed card already sits on the Table in the local state, so the color map includes it.
+    const tableCards = context.rules.material(MaterialType.QuadriCard).location(LocationType.Table).getItems()
+    return isObjectiveRealized(objectivePatterns[item.id as ObjectiveCard], buildColorMap(tableCards))
+  }
+
+  isMenuAlwaysVisible(item: MaterialItem, context: ItemContext): boolean {
+    return this.isRealizedByPreview(item, context)
+  }
+
+  getItemMenu(item: MaterialItem, context: ItemContext) {
+    if (!this.isRealizedByPreview(item, context)) return undefined
+    return <div css={checkOverlayCss}>
+      <FontAwesomeIcon icon={faCheck} />
+    </div>
+  }
 }
+
+const checkOverlayCss = css`
+  transform: translate(-50%, -50%) translateZ(0.5em);
+  width: 3.2em;
+  height: 3.2em;
+  border-radius: 50%;
+  background-color: rgba(52, 208, 88, 0.95);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7em;
+  border: 0.12em solid white;
+  box-shadow: 0 0 0.9em rgba(52, 208, 88, 0.75);
+  pointer-events: none;
+`
 
 export const objectiveCardDescription = new ObjectiveCardDescription()
