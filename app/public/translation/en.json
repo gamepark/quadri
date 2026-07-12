@@ -53,6 +53,7 @@
   "tuto.place-card": "Place the card on the table, overlapping <b>the black square</b> of the starting card. Then click <b>Confirm</b>!",
   "tuto.objective-realized": "Look at the table! The <b>magenta diagonal</b> has appeared: your objective is <b>automatically achieved</b>.",
   "tuto.new-objective": "Well done! You score points and automatically draw a new <b>Objective card</b> to always have 3 in hand.",
+  "tuto.objective-mirror": "Here is your new objective. Good to know: an objective can be completed on the table in <b>any orientation</b>, including <b>mirrored</b>.",
   "tuto.end-1": "If a player draws the <b>last Objective card</b>, all players take one <b>final turn</b>.",
   "tuto.end-2": "If the <b>Quadri card</b> deck is empty, the game stops <b>immediately</b>.",
   "tuto.end-3": "The player with the <b>most points</b> wins.\nYou now know the rules of Quadri: it's your turn to play!"

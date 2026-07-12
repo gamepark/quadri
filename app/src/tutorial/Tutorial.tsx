@@ -1,5 +1,6 @@
 import { LocationType } from '@gamepark/quadri/material/LocationType'
 import { MaterialType } from '@gamepark/quadri/material/MaterialType'
+import { ObjectiveCard } from '@gamepark/quadri/material/ObjectiveCard'
 import { MaterialTutorial, TutorialStep } from '@gamepark/react-game'
 import { isMoveItemType, MaterialGame } from '@gamepark/rules-api'
 import { Trans } from 'react-i18next'
@@ -135,6 +136,20 @@ export class Tutorial extends MaterialTutorial<number, MaterialType, LocationTyp
         text: () => <Trans i18nKey="tuto.new-objective" components={{ b: <strong /> }} />,
         position: { x: -20 },
       },
+    },
+
+    // Étape 11bis : Focus sur la nouvelle carte piochée — les objectifs se réalisent dans tous les sens, y compris en miroir
+    {
+      popup: {
+        text: () => <Trans i18nKey="tuto.objective-mirror" components={{ b: <strong /> }} />,
+        position: { x: -20 },
+      },
+      focus: (game: MaterialGame<number, MaterialType, LocationType>) => ({
+        materials: [
+          this.material(game, MaterialType.ObjectiveCard).location(LocationType.PlayerHand).player(me).id(ObjectiveCard.Objective27),
+        ],
+        margin: { left: 3, right: 3, top: 15, bottom: 3 },
+      }),
     },
 
     // Étape 12 : Fin du tutoriel — les conditions de fin de partie, en 3 popups

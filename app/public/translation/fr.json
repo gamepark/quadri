@@ -53,6 +53,7 @@
   "tuto.place-card": "Posez la carte sur la table, en chevauchant <b>le carré noir</b> de la carte de départ. Ensuite, cliquez sur <b>Valider</b> !",
   "tuto.objective-realized": "Regardez la table ! La <b>diagonale magenta</b> est apparue : votre objectif est <b>automatiquement réalisé</b>.",
   "tuto.new-objective": "Bravo ! Vous marquez des points et piochez automatiquement une nouvelle <b>carte Objectif</b> pour en avoir toujours 3 en main.",
+  "tuto.objective-mirror": "Voici votre nouvel objectif. Bon à savoir : un objectif peut être réalisé sur la table dans <b>n'importe quel sens</b>, y compris en <b>miroir</b>.",
   "tuto.end-1": "Si un joueur pioche la <b>dernière carte Objectif</b>, tous les joueurs jouent un <b>dernier tour</b>.",
   "tuto.end-2": "Si la pioche de <b>cartes Quadri</b> est vide, la partie s'arrête <b>immédiatement</b>.",
   "tuto.end-3": "Le joueur avec le <b>plus de points</b> gagne.\nVous connaissez les règles de Quadri : à vous de jouer maintenant !"

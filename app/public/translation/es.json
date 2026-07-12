@@ -53,6 +53,7 @@
   "tuto.place-card": "Coloca la carta en la mesa, solapando <b>el cuadrado negro</b> de la carta inicial. Luego, ¡haz clic en <b>Confirmar</b>!",
   "tuto.objective-realized": "¡Mira la mesa! Ha aparecido la <b>diagonal magenta</b>: tu objetivo se <b>realiza automáticamente</b>.",
   "tuto.new-objective": "¡Bravo! Anotas puntos y robas automáticamente una nueva <b>carta Objetivo</b> para tener siempre 3 en la mano.",
+  "tuto.objective-mirror": "Aquí tienes tu nuevo objetivo. Bueno saberlo: un objetivo puede realizarse en la mesa en <b>cualquier orientación</b>, incluso <b>en espejo</b>.",
   "tuto.end-1": "Si un jugador roba la <b>última carta Objetivo</b>, todos los jugadores juegan un <b>último turno</b>.",
   "tuto.end-2": "Si el mazo de <b>cartas Quadri</b> está vacío, la partida se detiene <b>inmediatamente</b>.",
   "tuto.end-3": "Gana el jugador con <b>más puntos</b>.\n¡Ya conoces las reglas de Quadri: ahora te toca jugar!"
