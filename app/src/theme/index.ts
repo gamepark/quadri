@@ -180,7 +180,7 @@ const journalHistoryEntry = css`
   border-radius: 0.2em !important;
   color: ${colors.paper} !important;
   font-family: ${fontBody} !important;
-  font-size: 1.05em !important;
+  font-size: 2em !important;
   padding: 0.5em 0.8em 0.5em 0.85em !important;
   margin: 0.3em 0 !important;
   box-shadow: 0 0.1em 0.25em rgba(0, 0, 0, 0.45) !important;
