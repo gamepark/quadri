@@ -1,4 +1,4 @@
-import { OptionsSpec, OptionsValidationError } from '@gamepark/rules-api'
+import { OptionsSpec, OptionsSpecV2, OptionsValidationError } from '@gamepark/rules-api'
 
 /** The three ways to play Quadri. */
 export enum GameMode {
@@ -25,6 +25,49 @@ export type QuadriOptions = {
   difficulty: Difficulty
 }
 
+/**
+ * What Quadri is: one mode question, one difficulty question, and a table size
+ * that decides which modes are on the table at all.
+ *
+ * The mode restrictions are the whole of what `validate` used to say — the
+ * cooperative mode is the only one that goes below two players or above four —
+ * expressed here as availability rather than as a rejection. Declared this way
+ * the platform stops offering a mode the table size rules out, instead of
+ * accepting the answer and refusing it at creation.
+ *
+ * `difficulty` is asked for every mode, ball-trap included, exactly as v1 did.
+ * The mode ignores it, but narrowing it here would be a rules change smuggled
+ * into a migration.
+ */
+export const QuadriOptionsSpecV2: OptionsSpecV2 = {
+  specVersion: 2,
+  players: { min: 1, max: 6 },
+  options: {
+    mode: {
+      kind: 'enum',
+      values: [
+        { value: GameMode.Competitive, playerCount: { min: 2, max: 4 } },
+        GameMode.Cooperative,
+        { value: GameMode.BallTrap, playerCount: { min: 2, max: 4 } }
+      ]
+    },
+    difficulty: { kind: 'enum', values: [Difficulty.Easy, Difficulty.Medium, Difficulty.Hard] }
+  }
+}
+
+/**
+ * The legacy declaration, superseded by `QuadriOptionsSpecV2`.
+ *
+ * Kept exported only because a few platform screens still read the v1 spec for
+ * its labels; nothing here should be edited any more, and the whole object goes
+ * once those screens have moved.
+ *
+ * The `solo` and `hide` flags inside `valueSpec` never did anything: the
+ * platform read those two flags on whole options, never on individual values,
+ * so what actually held the mode restrictions was `validate` alone. They are
+ * left untouched as the dead metadata they always were — `QuadriOptionsSpecV2`
+ * is what states the rule now.
+ */
 export const QuadriOptionsSpec: OptionsSpec<QuadriOptions> = {
   mode: {
     label: (t) => t('option.mode'),
