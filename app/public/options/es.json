@@ -1,0 +1,15 @@
+{
+  "option.difficulty": "Dificultad",
+  "option.difficulty.1": "Fácil",
+  "option.difficulty.2": "Media",
+  "option.difficulty.3": "Difícil",
+  "option.difficulty.help": "Fácil: objetivos de valor máximo 5. Media: añade el valor 6. Difícil: añade el valor 8.",
+  "option.mode": "Modo de juego",
+  "option.mode.1": "Competitivo",
+  "option.mode.1.help": "Consigue tus objetivos y anota el máximo de puntos posible. (2 a 4 jugadores)",
+  "option.mode.2": "Cooperativo",
+  "option.mode.2.help": "Conseguid 10 objetivos comunes con 20 cartas Quadri, sin comunicaros de ninguna manera. La partida se gana si todos los objetivos se giran antes de que el mazo se agote. (1 a 6 jugadores)",
+  "option.mode.3": "Ball-trap",
+  "option.mode.3.help": "Elimina a tus rivales realizando sus objetivos. ¡No puedes mirar tus propios objetivos, pero los demás jugadores sí los ven! Gana el último que tenga un objetivo en la mano. (2 a 4 jugadores)",
+  "option.mode.help": "Elige cómo quieres jugar a Quadri."
+}

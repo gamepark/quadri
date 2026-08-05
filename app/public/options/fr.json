@@ -1,0 +1,15 @@
+{
+  "option.difficulty": "Difficulté",
+  "option.difficulty.1": "Facile",
+  "option.difficulty.2": "Moyen",
+  "option.difficulty.3": "Difficile",
+  "option.difficulty.help": "Facile : objectifs de valeur 5 maximum. Moyen : ajoute la valeur 6. Difficile : ajoute la valeur 8.",
+  "option.mode": "Mode de jeu",
+  "option.mode.1": "Compétitif",
+  "option.mode.1.help": "Réalisez vos objectifs et marquez le plus de points possible. (2 à 4 joueurs)",
+  "option.mode.2": "Coopératif",
+  "option.mode.2.help": "Réalisez 10 objectifs communs avec 20 cartes Quadri, sans communiquer d'aucune façon. La partie est gagnée si tous les objectifs sont retournés avant que la pioche ne soit épuisée. (1 à 6 joueurs)",
+  "option.mode.3": "Ball-trap",
+  "option.mode.3.help": "Éliminez vos adversaires en réalisant leurs objectifs. Vous ne pouvez pas regarder vos propres objectifs, mais les autres joueurs les voient ! Le dernier à avoir un objectif en main a gagné. (2 à 4 joueurs)",
+  "option.mode.help": "Choisissez votre façon de jouer à Quadri."
+}

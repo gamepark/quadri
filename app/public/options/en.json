@@ -1,0 +1,15 @@
+{
+  "option.difficulty": "Difficulty",
+  "option.difficulty.1": "Easy",
+  "option.difficulty.2": "Medium",
+  "option.difficulty.3": "Hard",
+  "option.difficulty.help": "Easy: objectives worth up to 5. Medium: adds value 6. Hard: adds value 8.",
+  "option.mode": "Game mode",
+  "option.mode.1": "Competitive",
+  "option.mode.1.help": "Achieve your objectives and score as many points as possible. (2 to 4 players)",
+  "option.mode.2": "Cooperative",
+  "option.mode.2.help": "Achieve 10 common objectives with 20 Quadri cards, without communicating in any way. The game is won if all objectives are turned over before the deck runs out. (1 to 6 players)",
+  "option.mode.3": "Ball-trap",
+  "option.mode.3.help": "Eliminate your opponents by achieving their objectives. You cannot look at your own objectives, but the other players can see them! The last one with an objective in hand wins. (2 to 4 players)",
+  "option.mode.help": "Choose how you want to play Quadri."
+}

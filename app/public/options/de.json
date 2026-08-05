@@ -1,0 +1,15 @@
+{
+  "option.difficulty": "Schwierigkeit",
+  "option.difficulty.1": "Leicht",
+  "option.difficulty.2": "Mittel",
+  "option.difficulty.3": "Schwer",
+  "option.difficulty.help": "Leicht: Ziele mit Wert bis 5. Mittel: fügt Wert 6 hinzu. Schwer: fügt Wert 8 hinzu.",
+  "option.mode": "Spielmodus",
+  "option.mode.1": "Kompetitiv",
+  "option.mode.1.help": "Erfülle deine Ziele und erziele so viele Punkte wie möglich. (2 bis 4 Spieler)",
+  "option.mode.2": "Kooperativ",
+  "option.mode.2.help": "Erfüllt 10 gemeinsame Ziele mit 20 Quadri-Karten, ohne euch in irgendeiner Weise zu verständigen. Das Spiel ist gewonnen, wenn alle Ziele umgedreht sind, bevor der Stapel aufgebraucht ist. (1 bis 6 Spieler)",
+  "option.mode.3": "Ball-Trap",
+  "option.mode.3.help": "Schalte deine Gegner aus, indem du ihre Ziele erfüllst. Du darfst deine eigenen Ziele nicht ansehen, aber die anderen Spieler sehen sie! Wer als Letzter ein Ziel auf der Hand hat, gewinnt. (2 bis 4 Spieler)",
+  "option.mode.help": "Wähle, wie du Quadri spielen möchtest."
+}

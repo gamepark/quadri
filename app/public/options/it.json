@@ -1,0 +1,15 @@
+{
+  "option.difficulty": "Difficoltà",
+  "option.difficulty.1": "Facile",
+  "option.difficulty.2": "Media",
+  "option.difficulty.3": "Difficile",
+  "option.difficulty.help": "Facile: obiettivi di valore massimo 5. Media: aggiunge il valore 6. Difficile: aggiunge il valore 8.",
+  "option.mode": "Modalità di gioco",
+  "option.mode.1": "Competitiva",
+  "option.mode.1.help": "Realizza i tuoi obiettivi e segna più punti possibile. (2-4 giocatori)",
+  "option.mode.2": "Cooperativa",
+  "option.mode.2.help": "Realizzate 10 obiettivi comuni con 20 carte Quadri, senza comunicare in alcun modo. La partita è vinta se tutti gli obiettivi vengono girati prima che il mazzo si esaurisca. (1-6 giocatori)",
+  "option.mode.3": "Ball-trap",
+  "option.mode.3.help": "Elimina i tuoi avversari realizzando i loro obiettivi. Non puoi guardare i tuoi obiettivi, ma gli altri giocatori li vedono! Vince l'ultimo ad avere un obiettivo in mano. (2-4 giocatori)",
+  "option.mode.help": "Scegli come giocare a Quadri."
+}
