@@ -1,4 +1,4 @@
-import { QuadriOptionsSpec } from '@gamepark/quadri/QuadriOptions'
+import { QuadriOptionsSpecV2 } from '@gamepark/quadri/QuadriOptions'
 import { QuadriRules } from '@gamepark/quadri/QuadriRules'
 import { QuadriSetup } from '@gamepark/quadri/QuadriSetup'
 import { GameProvider } from '@gamepark/react-game'
@@ -19,7 +19,7 @@ createRoot(document.getElementById('root')!).render(
     <GameProvider
       game="quadri"
       Rules={QuadriRules}
-      optionsSpec={QuadriOptionsSpec}
+      optionsSpec={QuadriOptionsSpecV2}
       GameSetup={QuadriSetup}
       material={Material}
       locators={Locators}

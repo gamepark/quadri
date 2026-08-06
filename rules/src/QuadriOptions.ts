@@ -1,4 +1,4 @@
-import { OptionsSpec, OptionsSpecV2, OptionsValidationError } from '@gamepark/rules-api'
+import { OptionsSpecV2 } from '@gamepark/rules-api'
 
 /** The three ways to play Quadri. */
 export enum GameMode {
@@ -52,53 +52,5 @@ export const QuadriOptionsSpecV2: OptionsSpecV2 = {
       ]
     },
     difficulty: { kind: 'enum', values: [Difficulty.Easy, Difficulty.Medium, Difficulty.Hard] }
-  }
-}
-
-/**
- * The legacy declaration, superseded by `QuadriOptionsSpecV2`.
- *
- * Kept exported only because a few platform screens still read the v1 spec for
- * its labels; nothing here should be edited any more, and the whole object goes
- * once those screens have moved.
- *
- * The `solo` and `hide` flags inside `valueSpec` never did anything: the
- * platform read those two flags on whole options, never on individual values,
- * so what actually held the mode restrictions was `validate` alone. They are
- * left untouched as the dead metadata they always were — `QuadriOptionsSpecV2`
- * is what states the rule now.
- */
-export const QuadriOptionsSpec: OptionsSpec<QuadriOptions> = {
-  mode: {
-    label: (t) => t('option.mode'),
-    help: (t) => t('option.mode.help'),
-    values: [GameMode.Competitive, GameMode.Cooperative, GameMode.BallTrap],
-    valueSpec: (mode) => ({
-      label: (t) => t(`option.mode.${mode}`),
-      help: (t) => t(`option.mode.${mode}.help`),
-      // Only the cooperative mode can be played solo (1 to 6 players).
-      solo: mode === GameMode.Cooperative,
-      // Ball-trap is limited to 2-4 players.
-      hide: mode === GameMode.BallTrap ? (players: number) => players > 4 : undefined
-    }),
-    competitiveValue: GameMode.Competitive
-  },
-  difficulty: {
-    label: (t) => t('option.difficulty'),
-    help: (t) => t('option.difficulty.help'),
-    values: [Difficulty.Easy, Difficulty.Medium, Difficulty.Hard],
-    valueSpec: (difficulty) => ({
-      label: (t) => t(`option.difficulty.${difficulty}`)
-    })
-  },
-  competitivePlayers: { min: 2, max: 6 },
-  validate: (options, t) => {
-    const players = options.players ?? 1
-    if (options.mode !== GameMode.Cooperative && players > 4) {
-      throw new OptionsValidationError(t('more.than.4.players.require.coop'), ['players'])
-    }
-    if (options.mode !== GameMode.Cooperative && players < 2) {
-      throw new OptionsValidationError(t('less.than.2.players.require.coop'), ['players'])
-    }
   }
 }
